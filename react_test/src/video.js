@@ -11,14 +11,10 @@ import './index.css';
 
 // Function형은 State를 갖지 않고 Render 함수만을 가짐.
 function Video() {
-
     return (
         <div className={"event_view"}>
             <div className={'section_title'}>
                 <h1>Hello Fucking World</h1>
-            </div>
-            <div className={"time"}>
-                <h3>{new Date().getFullYear()}-{new Date().getMonth()}-{new Date().getDate()}</h3>
             </div>
             <video id={"clip"} controls loop muted autoPlay/>
         </div>
