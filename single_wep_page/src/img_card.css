@@ -1,0 +1,22 @@
+.layout {
+    border: 5px solid rgba(111, 111, 255, 0.5);
+}
+
+.h2 {
+    border: 3px solid rgba(175, 211,232, 0.8);
+    margin: 0;
+}
+
+.row {
+    display: inline-flex;
+    background-color: rgba(255,124,125, 0.2);
+}
+
+.imgDiv {
+    border: 3px solid rgba(123,255,136, 0.6);
+}
+
+.img {
+    width: 200px;
+    height: 200px;
+}
