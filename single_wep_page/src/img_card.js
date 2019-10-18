@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './img_card.css'
 
 function ImgCard() {
@@ -20,13 +19,13 @@ function ImgDiv() {
     );
 }
 
-function Img() {
+function Img(props) {
     return (
-        <a href="./#">
-          <img className="img" src={logo} alt="Hi"/>
+        <a href={props.href}>
+          <img className={props.id} src={props.src} alt={props.alt} srcSet={props.srcset} />
         </a>
     );
 }
 
-export default ImgCard;
+export {ImgCard, ImgDiv, Img};
 
