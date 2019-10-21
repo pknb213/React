@@ -2,4 +2,7 @@
 .indycare/.idea/
 .react_test/.idea/
 .single_wep_page/.idea/
+.idea/*
 .idea/
+Flask/__pycache__/
+Flask/python/__pycache__/

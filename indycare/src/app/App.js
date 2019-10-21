@@ -1,26 +1,36 @@
 import React from 'react';
-import logo from '../resources/icons/logo.svg';
 import './App.css';
+import {Img} from '../components/Login/Image';
+import {HText, PText} from "../components/Login/Text";
+import logoIcon from '../resources/img-logo.svg';
+import logo from '../resources/logo-indycare.svg';
+import Login from "../components/Login/Login";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="Layout">
+            <div className="LoginBox">
+                <div className="LeftBox">
+                    <div className="LeftContainer">
+                        <div className="Title">
+                            <Img id='LogoIcon' src={logoIcon}/>
+                            <Img id='Logo' src={logo}/>
+                        </div>
+                        <div className="Explain">
+                            <HText text="Login to your account"/>
+                        </div>
+                        <Login/>
+                    </div>
+                </div>
+                <div className="RightBox">
+                    <div className="ImageBox"></div>
+                    <div className="CopyRight">
+                        <PText id="CopyRight" text="COPYRIGHT ⓒ 2019 Neuromeka ALL RIGHTS RESERVED."/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
