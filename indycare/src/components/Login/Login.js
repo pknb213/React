@@ -1,9 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import Axios from 'axios';
 import '../../app/App.css'
 import {Img} from "./Image";
 import Input from './Input';
 import {PText} from "./Text";
 import Checkbox from '../Login/CheckBox';
+import LoginCheck from '../Login/LoginCheck';
 import email from "../../resources/icon-email.png";
 import pwd from "../../resources/icon-key.png";
 
@@ -35,6 +38,17 @@ class Login extends React.Component {
         e.preventDefault();
         console.log(e);
         console.log(this.state);
+
+        Axios.post('http://localhost:4000', this.state)
+            .then(res => {
+                console.log(res);
+                if (res.data === "Hello World"){
+                    <LoginCheck/>
+                }
+            })
+            .catch(err => {
+               alert(err);
+            });
     };
 
     render() {
