@@ -42,8 +42,10 @@ class Login extends React.Component {
         Axios.post('http://localhost:4000', this.state)
             .then(res => {
                 console.log(res);
-                if (res.data === "Hello World"){
-                    <LoginCheck/>
+                if (res.data === "Hello World!"){
+                    console.log("Hell");
+                    // document.location.href = 'http://localhost:4000/test';
+                    document.location.replace("http://localhost:4000/test");
                 }
             })
             .catch(err => {
@@ -53,7 +55,7 @@ class Login extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.handleSubmit}>
+            <form id='form' onSubmit={this.handleSubmit}>
                 <div className="EmailBox">
                     <Img id="EmailIcon" src={email}/>
                     <Input type="text" name="EmailText" text="E-mail" value={this.state.email} onChange={this.handleEmailChange}/>

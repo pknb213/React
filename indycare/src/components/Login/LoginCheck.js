@@ -8,7 +8,7 @@ class LoginCheck extends React.Component {
         return (
             <div>
                 {
-                    !this.isLogin && <Redirect to="/"/>
+                    !this.isLogin && <Redirect to="/test"/>
                 }
                 로그인 되었습니다.
             </div>

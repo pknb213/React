@@ -2,24 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f187f9ad-3b51-4a4e-b05a-2a3d97d281fb" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/React.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Flask/python/login.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/indycare/src/components/Login/LoginCheck.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/indycare/src/view/LoginView.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/indycare/src/view/home.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/indycare/src/view/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/indycare/src/view/root.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/indycare/src/view/test.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Flask/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/Flask/app.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Flask/python/dbs.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_wep_page/single_forum_page.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/single_wep_page/spa.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flask/python/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/Flask/python/login.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Flask/python/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/Flask/python/utils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Flask/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Flask/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indycare/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indycare/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indycare/src/app/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/app/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/indycare/src/components/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/components/Login/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/indycare/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/src/components/Login/LoginCheck.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/components/Login/LoginCheck.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/single_wep_page/src/layout.css" beforeDir="false" afterPath="$PROJECT_DIR$/single_wep_page/src/layout.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,43 +20,19 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/React$app.coverage" NAME="app Coverage Results" MODIFIED="1571735021186" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Flask" />
+    <SUITE FILE_PATH="coverage/React$app.coverage" NAME="app Coverage Results" MODIFIED="1571822728241" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Flask" />
   </component>
   <component name="FileEditorManager">
     <splitter split-orientation="horizontal" split-proportion="0.5">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/Flask/app.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="228">
-                  <caret line="12" selection-start-line="12" selection-end-line="12" />
-                  <folding>
-                    <element signature="e#0#19#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Flask/views.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="513">
-                  <caret line="27" selection-start-line="27" selection-end-line="27" />
+                <state relative-caret-position="95">
+                  <caret line="5" column="11" lean-forward="true" selection-start-line="5" selection-start-column="11" selection-end-line="7" selection-end-column="44" />
                   <folding>
                     <element signature="e#0#19#0" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/Flask/python/utils.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="57">
-                  <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
-                  <folding>
-                    <element signature="e#0#14#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -73,8 +41,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/Flask/python/login.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="133">
-                  <caret line="7" selection-start-line="7" selection-end-line="7" />
+                <state relative-caret-position="323">
+                  <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
                   <folding>
                     <element signature="e#0#102#0" expanded="true" />
                   </folding>
@@ -83,12 +51,12 @@
             </entry>
           </file>
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/indycare/src/view/LoginView.js">
+            <entry file="file://$PROJECT_DIR$/Flask/python/utils.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="494">
-                  <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+                <state relative-caret-position="304">
+                  <caret line="16" column="36" lean-forward="true" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
                   <folding>
-                    <element signature="e#0#26#0" expanded="true" />
+                    <element signature="e#0#14#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -122,17 +90,17 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/indycare/src/app/App.css">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="3154">
+                <state relative-caret-position="775">
                   <caret line="166" column="9" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/indycare/src/components/Login/Login.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="513">
-                  <caret line="42" column="26" lean-forward="true" selection-start-line="42" selection-start-column="26" selection-end-line="42" selection-end-column="26" />
+                <state relative-caret-position="519">
+                  <caret line="53" column="6" lean-forward="true" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
                   </folding>
@@ -140,11 +108,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/indycare/src/components/Login/LoginCheck.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="304">
-                  <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+                <state relative-caret-position="285">
+                  <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
                   </folding>
@@ -159,10 +127,29 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="JavaScript File" />
+        <option value="Python Script" />
+        <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>{props.src}</find>
+      <find>{props.srcset}</find>
+      <find>=src</find>
+      <find>url</find>
+      <find>h1</find>
+      <find>arr</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>src</replace>
+      <replace>''</replace>
+      <replace>=&quot;./img/&quot;</replace>
+      <replace>'./#'</replace>
+      <replace>h3</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -183,18 +170,23 @@
         <option value="$PROJECT_DIR$/indycare/src/view/LoginView.js" />
         <option value="$PROJECT_DIR$/indycare/src/view/home.js" />
         <option value="$PROJECT_DIR$/indycare/src/app/App.js" />
-        <option value="$PROJECT_DIR$/Flask/python/login.py" />
-        <option value="$PROJECT_DIR$/Flask/python/utils.py" />
-        <option value="$PROJECT_DIR$/Flask/views.py" />
         <option value="$PROJECT_DIR$/Flask/app.py" />
-        <option value="$PROJECT_DIR$/indycare/src/components/Login/Login.js" />
         <option value="$PROJECT_DIR$/indycare/src/components/Login/LoginCheck.js" />
+        <option value="$PROJECT_DIR$/single_wep_page/src/spa.css" />
+        <option value="$PROJECT_DIR$/single_wep_page/src/layout.css" />
+        <option value="$PROJECT_DIR$/single_wep_page/single_forum_page.html" />
+        <option value="$PROJECT_DIR$/single_wep_page/spa.css" />
+        <option value="$PROJECT_DIR$/Flask/python/utils.py" />
+        <option value="$PROJECT_DIR$/Flask/python/dbs.py" />
+        <option value="$PROJECT_DIR$/Flask/python/login.py" />
+        <option value="$PROJECT_DIR$/Flask/views.py" />
+        <option value="$PROJECT_DIR$/indycare/src/components/Login/Login.js" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="534" />
-    <option name="y" value="26" />
+    <option name="x" value="663" />
+    <option name="y" value="31" />
     <option name="width" value="1827" />
     <option name="height" value="1382" />
   </component>
@@ -222,42 +214,13 @@
             <path>
               <item name="React" type="b2602c69:ProjectViewProjectNode" />
               <item name="React" type="462c0819:PsiDirectoryNode" />
-              <item name="indycare" type="462c0819:PsiDirectoryNode" />
+              <item name="Flask" type="462c0819:PsiDirectoryNode" />
+              <item name="python" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="React" type="b2602c69:ProjectViewProjectNode" />
               <item name="React" type="462c0819:PsiDirectoryNode" />
               <item name="indycare" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="React" type="b2602c69:ProjectViewProjectNode" />
-              <item name="React" type="462c0819:PsiDirectoryNode" />
-              <item name="indycare" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="app" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="React" type="b2602c69:ProjectViewProjectNode" />
-              <item name="React" type="462c0819:PsiDirectoryNode" />
-              <item name="indycare" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="React" type="b2602c69:ProjectViewProjectNode" />
-              <item name="React" type="462c0819:PsiDirectoryNode" />
-              <item name="indycare" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Login" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="React" type="b2602c69:ProjectViewProjectNode" />
-              <item name="React" type="462c0819:PsiDirectoryNode" />
-              <item name="indycare" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="React" type="b2602c69:ProjectViewProjectNode" />
@@ -275,10 +238,17 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../scmserver" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Administrator\Documents\React\single_wep_page" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -332,32 +302,42 @@
       <option name="presentableId" value="Default" />
       <updated>1571639935596</updated>
       <workItem from="1571639936801" duration="8381000" />
-      <workItem from="1571704961298" duration="13018000" />
+      <workItem from="1571704961298" duration="13782000" />
+      <workItem from="1571737648525" duration="18783000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13031000" />
+    <option name="totallyTimeSpent" value="32578000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="534" y="26" width="1827" height="1382" extended-state="0" />
+    <frame x="663" y="31" width="1827" height="1382" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.12563667" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1262026" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.30849358" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.30849358" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32932693" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.24358974" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.24358974" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32932693" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -370,13 +350,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/indycare/src/app/App.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3154">
-          <caret line="166" column="9" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/indycare/src/components/Login/Input.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="76">
@@ -384,9 +357,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indycare/src/view/Login.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
+    <entry file="file://$PROJECT_DIR$/indycare/src/view/Login.js" />
     <entry file="file://$PROJECT_DIR$/indycare/src/view/root.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="190">
@@ -414,23 +385,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indycare/src/app/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/flask_login/utils.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="161" selection-start-line="161" selection-end-line="161" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/indycare/src/view/test.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
@@ -445,10 +399,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indycare/src/view/index.js">
+    <entry file="file://$PROJECT_DIR$/single_wep_page/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        <state relative-caret-position="380">
+          <caret line="20" column="14" lean-forward="true" selection-start-line="20" selection-start-column="14" selection-end-line="20" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indycare/src/components/Login/LoginCheck.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="15" column="5" selection-start-line="15" selection-start-column="5" selection-end-line="15" selection-end-column="5" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -462,32 +426,114 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Flask/python/login.py">
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        <state>
           <folding>
-            <element signature="e#0#102#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Flask/views.py">
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        <state>
           <folding>
-            <element signature="e#0#19#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Flask/python/utils.py">
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/img_card.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="33" selection-start-line="3" selection-start-column="33" selection-end-line="3" selection-end-column="33" />
+        <state relative-caret-position="399">
+          <caret line="21" column="21" lean-forward="true" selection-start-line="21" selection-start-column="21" selection-end-line="21" selection-end-column="21" />
           <folding>
-            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/img_card.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="24" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/text.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="21" column="8" lean-forward="true" selection-start-line="21" selection-start-column="8" selection-end-line="23" selection-end-column="12" />
+          <folding>
+            <element signature="e#0#25#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/text.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="642">
+          <caret line="369" lean-forward="true" selection-end-line="382" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/img/logo.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/neuromeka.svg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/group-25@3x.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/layout.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" column="23" lean-forward="true" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/src/layout.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="627">
+          <caret line="33" column="1" selection-start-line="33" selection-start-column="1" selection-end-line="33" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/spa.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="12" column="20" selection-start-line="12" selection-start-column="20" selection-end-line="12" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/single_wep_page/single_forum_page.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="35" lean-forward="true" selection-start-line="17" selection-start-column="35" selection-end-line="17" selection-end-column="35" />
+          <folding>
+            <element signature="e#3542#3548#0" expanded="true" />
+            <element signature="e#3548#3554#0" expanded="true" />
+            <element signature="e#3554#3560#0" expanded="true" />
+            <element signature="e#3560#3566#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indycare/src/app/App.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="775">
+          <caret line="166" column="9" selection-start-line="166" selection-start-column="9" selection-end-line="166" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Flask/python/dbs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="266">
+          <caret line="14" lean-forward="true" selection-start-line="14" selection-end-line="14" />
+          <folding>
+            <element signature="e#32#46#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -502,20 +548,78 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indycare/src/components/Login/Login.js">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/flask_login/mixins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="513">
-          <caret line="42" column="26" lean-forward="true" selection-start-line="42" selection-start-column="26" selection-end-line="42" selection-end-column="26" />
+        <state relative-caret-position="279">
+          <caret line="27" column="8" selection-start-line="27" selection-start-column="8" selection-end-line="27" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/urllib/request.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="621">
+          <caret line="931" column="8" selection-start-line="931" selection-start-column="8" selection-end-line="931" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Flask/python/utils.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="304">
+          <caret line="16" column="36" lean-forward="true" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indycare/src/view/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="57">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indycare/src/app/App.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indycare/src/components/Login/LoginCheck.js">
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/flask_login/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        <state relative-caret-position="-177">
+          <caret line="133" column="4" selection-start-line="133" selection-start-column="4" selection-end-line="133" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Flask/python/login.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="17" column="30" lean-forward="true" selection-start-line="17" selection-start-column="30" selection-end-line="17" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Flask/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="11" lean-forward="true" selection-start-line="5" selection-start-column="11" selection-end-line="7" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#19#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indycare/src/components/Login/Login.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="519">
+          <caret line="53" column="6" lean-forward="true" selection-start-line="53" selection-start-column="6" selection-end-line="53" selection-end-column="6" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
