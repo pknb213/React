@@ -1,7 +1,7 @@
 import React from 'react';
 import '../app/App.css';
-import {Img} from '../components/Login/Image';
-import {HText, PText} from "../components/Login/Text";
+import {Img} from '../components/Public/Image';
+import {HText, PText} from "../components/Public/Text";
 import logoIcon from '../resources/img-logo.svg';
 import logo from '../resources/logo-indycare.svg';
 import Login from "../components/Login/Login";

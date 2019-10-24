@@ -1,12 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import '../../app/App.css'
-import {Img} from "./Image";
-import Input from './Input';
-import {PText} from "./Text";
-import Checkbox from '../Login/CheckBox';
-import LoginCheck from '../Login/LoginCheck';
+import {Img} from "../Public/Image";
+import Input from '../Public/Input';
+import {PText} from "../Public/Text";
+import Checkbox from '../Public/CheckBox';
 import email from "../../resources/icon-email.png";
 import pwd from "../../resources/icon-key.png";
 
@@ -42,10 +40,8 @@ class Login extends React.Component {
         Axios.post('http://localhost:4000', this.state)
             .then(res => {
                 console.log(res);
-                if (res.data === "Hello World!"){
-                    console.log("Hell");
-                    // document.location.href = 'http://localhost:4000/test';
-                    document.location.replace("http://localhost:4000/test");
+                if (res.data === "ok"){
+                    document.location.href = "/list/robots/user";
                 }
             })
             .catch(err => {

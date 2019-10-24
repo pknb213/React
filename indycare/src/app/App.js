@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Switch} from 'react-router-dom';
-import {LoginView, Home, test} from '../view';
+import {LoginView, Home, test, RobotListForUser} from '../view';
 
 const App = () => {
       return (
@@ -10,6 +10,7 @@ const App = () => {
               <Route path="/test/:name" component={Home}/>
               <Route path="/test" component={test}/>
               </Switch>
+              <Route path="/list/robots/user" component={RobotListForUser}/>
           </div>
       );
 };

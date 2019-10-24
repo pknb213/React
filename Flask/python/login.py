@@ -5,7 +5,7 @@ import functools
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = "login"
+login_manager.login_view = "home"
 
 
 # callback to reload the user object
@@ -33,7 +33,6 @@ class User(UserMixin):
 
 class LoginRequired:
     def __init__(self, param=''):
-        print(current_user)
         self.allowed = []
         self.unallowed = []
         if param == '': return
@@ -46,7 +45,7 @@ class LoginRequired:
     def __call__(self, fn):
         @functools.wraps(fn)
         def decorated(*args, **kwargs):
-            print(current_user.is_authenticated)
+            print("Deco :", current_user.is_authenticated)
             if not current_user.is_authenticated:
                 return "NOT LOGGED"
             if current_user.permission in self.unallowed:
