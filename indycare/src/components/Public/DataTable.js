@@ -1,34 +1,70 @@
 import React from "react";
-import DataTable from 'react-data-table-component';
-import './DataTable.css'
+import Axios from 'axios';
+import ReactDataTable from 'react-data-table-component';
+import './DataTable.css';
+import $ from 'jquery';
+import DataTable from 'datatables.net-dt';
+import Monitering from '../../resources/List/icon_monitoring.svg'
 
-const data = [{id: 1, title: 'Happy', year: '1992'}, {id: 2, title:'fucking', year: '1994'}];
+$.DataTable = DataTable;
 
-const columns = [
-    {
-        name: 'Title',
-        selector: 'title',
-        sortable: true,
-    }  ,
-    {
-        name: 'Year',
-        selector: 'year',
-        sortable: true,
-        right: true,
-    },
-];
 
 class DataTableComponent extends React.Component {
     constructor(props) {
         super(props);
 
+    }
 
+    componentDidMount(nextProps, nextState) {
+        Axios.get('http://localhost:4000/datatable/robots/all')
+            .then(res => {
+                console.log(res);
+                this.table = $(this.refs.main).DataTable({
+                    data: res.data,
+                    process: true,
+                    searching: false,
+                    paging: false,
+                    lengthChange: false,
+                    bInfo: false,
+                    order: [[0, 'desc']],
+                    columns: [
+                        {data: 'sn'},
+                        {data: 'model'},
+                        {data: 'site'},
+                        {data: 'company'},
+                        {data: 'kpi'},
+                        {data: 'header'},
+                        {data: 'state'},
+                        {data: 'enter'},
+                    ]
+                })
+            })
+            .catch(e => {
+                alert(e);
+            })
+            .finally(() => {
+
+            });
+
+    }
+
+    componentDidUpdate() {
+        this.table.clear();
+        this.table.rows.add(this.transform(this.props.data));
+        this.table.draw();
+    }
+
+    componentWillUnmount() {
+        $('.data-table-wrapper')
+            .find('dataTable')
+            .DataTable()
+            .destroy(true);
     }
 
     render() {
         return (
             <div className="list_contents_table">
-                <table id="dataTable" className="table_style">
+                <table id="dataTable" className="table_style" ref='main'>
                     <thead>
                     <tr>
                         <th>SN</th>
@@ -38,17 +74,10 @@ class DataTableComponent extends React.Component {
                         <th>KPI</th>
                         <th>Header</th>
                         <th>State</th>
-                        <th> Enter</th>
+                        <th>Enter</th>
                     </tr>
                     </thead>
                 </table>
-                <div>
-                </div>
-            <DataTable
-                title="NRmK"
-                columns={columns}
-                data={data}
-            />
             </div>
         );
     }

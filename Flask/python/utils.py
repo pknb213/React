@@ -3,6 +3,9 @@ from flask_cors import CORS
 from flask import Flask, request, Response, jsonify
 from flask_session import Session
 from dbs import REDIS_URL, MySQL, cache
+from datetime import datetime, timedelta
+from pytz import timezone
+
 sys.path.append(os.getcwd())
 sys.path.append(os.getcwd() + os.path.sep + 'python')
 print(os.getcwd())
@@ -18,4 +21,7 @@ app.config.update(
 )
 CORS(app)
 
+KST = timezone('Asia/Seoul')
+fmtAll = '%Y-%m-%d %H:%M:%S'
+fmt = '%Y-%m-%d'
 

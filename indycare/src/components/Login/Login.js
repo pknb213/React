@@ -37,7 +37,7 @@ class Login extends React.Component {
         console.log(e);
         console.log(this.state);
 
-        Axios.post('http://localhost:4000', this.state)
+        Axios.post('http://localhost:4000/', this.state)
             .then(res => {
                 console.log(res);
                 if (res.data === "ok"){

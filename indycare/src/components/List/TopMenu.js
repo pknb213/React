@@ -24,7 +24,7 @@ class TopMenu extends React.Component {
                     <div className="header_item">
                         <ul>
                             <li className="header_search">
-                                <label for="search">
+                                <label htmlFor="search">
                                     <Img src={SearchIcon} alt="Search_icon"/>
                                     <input type="text" placeholder="search for..." name="search"/>
                                     <input type="submit" className="blind" value=''/>
