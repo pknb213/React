@@ -1,8 +1,8 @@
 import React from 'react';
-import {Img} from "../Public/Image";
+import {Img} from "./Image";
 import ToggleMenu from "../../resources/List/icon-menu.svg";
 import SearchIcon from "../../resources/List/icon_search.svg";
-import NotiIcon from  "../../resources/List/icon_noti.svg";
+import NotiIcon from "../../resources/List/icon_noti.svg";
 import LogoutIcon from "../../resources/List/icon_log_out.svg";
 import './TopMenu.css'
 // <input type=submit> 태그에서 value를 안넣으면 '제출' string이 출력 됨. 추후에 버튼 CSS 입혀서 만들면 될 듯.

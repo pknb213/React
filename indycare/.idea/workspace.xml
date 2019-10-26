@@ -2,11 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0fd4ca8f-aad4-4279-8530-69639a023136" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/Chart.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/DataTable.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Image.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/State.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Video.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Robot/FirstTab.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Robot/SecondTab.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Robot/Tab.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/List/TopMenu.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Public/TopMenu.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/List/TopMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Public/TopMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/robotListForUser.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/robotListForUser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/view/robot_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/robot_page.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -36,7 +40,9 @@
     <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Flask" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -45,11 +51,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Cheon\Desktop\Project\React\indycare\src\components\Public" />
       <recent name="C:\Users\Cheon\Desktop\Project\React\indycare\src" />
       <recent name="C:\Users\Cheon\Desktop\Project\React\indycare\src\app" />
       <recent name="C:\Users\Cheon\Desktop\Project\React\indycare\src\resources\icons" />
       <recent name="C:\Users\Cheon\Desktop\Project\React\indycare\src\js" />
-      <recent name="C:\Users\Cheon\Desktop\Project\React\indycare\src\css" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -91,6 +97,7 @@
       <updated>1571465398177</updated>
       <workItem from="1571465401551" duration="4056000" />
       <workItem from="1571471869649" duration="30000" />
+      <workItem from="1572072156912" duration="3567000" />
     </task>
     <servers />
   </component>

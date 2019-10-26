@@ -1,7 +1,7 @@
 import React from 'react';
 import SideNavigator from "../components/Public/SideNavigator";
-import TopMenu from "../components/List/TopMenu";
-import HeaderTitle from "../components/List/HeaderTitle";
+import TopMenu from "../components/Public/TopMenu";
+import HeaderTitle from "../components/Public/HeaderTitle";
 import DataTable from "../components/Public/DataTable";
 import "./robotListForUser.css";
 
@@ -13,7 +13,7 @@ const RobotListForUser = () => {
                 <div className="header_wrap">
                     <div className="header_top">
                         <TopMenu/>
-                        <HeaderTitle/>
+                        <HeaderTitle title="ROBOT LIST" breadcrumb="ROBOT LIST"/>
                     </div>
                     <div className="list_contents_wrap">
                         <DataTable/>
