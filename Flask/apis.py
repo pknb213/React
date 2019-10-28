@@ -83,6 +83,30 @@ def robot_state(sn):
     return Response('ok')
 
 
+@app.route("/datatable/events/<sn>")
+def events(sn):
+    # todo : DataTable에 출력할 용도인 API
+    sql = "SELECT idx, json, file, sn, " \
+          "DATE_FORMAT(CONVERT_TZ(occurrence_time, '+00:00', '+09:00'), '%%Y-%%m-%%d %%H:%%i:%%s') " \
+          "as occurrence_time " \
+          "FROM events " \
+          "WHERE sn=\"%s\" ORDER BY occurrence_time DESC LIMIT 5 " % sn
+    res = MySQL.select(sql, True)
+
+    if not res: return jsonify('')
+    for i in res:
+        a = i['json'].replace("\'", "\"")
+        a = a.replace("\\", "\\\\")
+        a = json.loads(a)
+        i['code'] = get_robot_code_description(a['code'])
+        # a = a['log'].split('\\')  # For Window
+        a = a['log'].split('/')  # For Linux
+        i['down'] = '<a class=c_hyper href=/file/event/%s/%s>' \
+                    '<img src="../static/img/icon-download.svg" alt="download_menu" /></a>' % (a[-1], i['sn'])
+
+    return jsonify(res)
+
+
 @app.route("/test", methods=['GET'])
 @LoginRequired("user")
 def test():

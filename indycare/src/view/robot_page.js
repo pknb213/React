@@ -4,7 +4,9 @@ import HeaderTitle from "../components/Public/HeaderTitle";
 import SideNavigator from "../components/Public/SideNavigator";
 import FirstTab from "../components/Robot/FirstTab";
 import SecondTab from "../components/Robot/SecondTab";
-import Tab from "../components/Robot/Tab";
+import {Tabs} from "../components/Robot/Tabs";
+import {Tab} from "../components/Robot/Tab";
+// import {Tab,Tabs,TabList,TabPanel } from 'react-tabs'
 
 const DetailView = ({match}) => {
     return (
@@ -17,11 +19,19 @@ const DetailView = ({match}) => {
                         <TopMenu/>
                         <HeaderTitle title="Robot Detail" breadcrumb="Robot Detail"/>
                     </div>
-                    <Tab/>
-                    <div className="tab_contents_wrap">
-                        <FirstTab/>
-                        <SecondTab/>
-                    </div>
+
+                    {/*<Tab/>*/}
+                        {/*<FirstTab/>*/}
+                        {/*<SecondTab/>*/}
+
+                        <Tabs>
+                            <Tab iconClassName={'icon-class-0'} linkClassName={'link-class-0'} text={'Robot Information'}>
+                                <FirstTab sn={match.params.sn}/>
+                            </Tab>
+                            <Tab iconClassName={'icon-class-1'} linkClassName={'link-class-1'} text={'Chart Information'}>
+                                <SecondTab/>
+                            </Tab>
+                        </Tabs>
                 </div>
             </div>
         </div>

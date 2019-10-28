@@ -6,3 +6,4 @@
 .idea/
 Flask/__pycache__/
 Flask/python/__pycache__/
+indycare/node_modules/.cache/

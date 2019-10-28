@@ -1,24 +1,26 @@
 import React from 'react';
-import './Tab.css'
+import './Tab.css';
 
-class Tab extends React.Component{
-    constructor(props) {
-        super(props);
+export class Tab extends React.Component {
+    constructor(props, context) {
+        super(props, context);
+        this.handleTabClick = this.handleTabClick.bind(this);
+    }
 
+    handleTabClick(event) {
+        event.preventDefault();
+        this.props.onClick(this.props.tabIndex);
     }
 
     render() {
         return (
-            <div className="tab_menu">
-                <button className="tablinks" onClick="openMenu(event, 'Robot_Information')" id="defaultOpen">
-                    Robot Information
-                </button>
-                <button className="tablinks" onClick="openMenu(event, 'Chart_Information')">
-                    Chart Information
-                </button>
-            </div>
-        );
+            <button className="tablinks" onClick={this.handleTabClick}
+                    id="defaultOpen">
+                {this.props.text}
+            </button>
+        )
     }
 }
 
-export default Tab;
+
+

@@ -23,7 +23,7 @@ function LoginView() {
                     </div>
                 </div>
                 <div className="RightBox">
-                    <div className="ImageBox"></div>
+                    <div className="ImageBox"/>
                     <div className="CopyRight">
                         <PText id="CopyRight" text="COPYRIGHT ⓒ 2019 Neuromeka ALL RIGHTS RESERVED."/>
                     </div>
