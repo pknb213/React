@@ -55,7 +55,7 @@ def robots(condition):
     return jsonify(res)
 
 
-@app.route("/robot/state/<sn>")
+@app.route("/robot/state/<sn>", methods=["POST"])
 def robot_state(sn):
     # sql = "SELECT state FROM robot_states " \
     #       "WHERE serial_number = \"%s\" AND date >= \"%s\" AND date < \"%s\" " \
@@ -77,10 +77,10 @@ def robot_state(sn):
     # Todo : 지금은 Static 값으로 테스트 한다.
     # dic = cache.hget(sn, 'state').decode('utf8')
 
-    dic = str({'busy': 0, 'collision': 0, 'emergency': 0, 'error': 0, 'home': 0,
-               'finish': 0, 'ready': 0, 'resetting': 0, 'zero': 0, 'is_server_connected': 1})
-    cache.hset(sn, 'state', dic)
-    return Response('ok')
+    dic = {'busy': 0, 'collision': 0, 'emergency': 0, 'error': 0, 'home': 0,
+           'finish': 0, 'ready': 1, 'resetting': 0, 'zero': 0, 'is_server_connected': 1}
+    cache.hset(sn, 'state', str(dic))
+    return jsonify(dic)
 
 
 @app.route("/datatable/events/<sn>")

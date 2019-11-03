@@ -17,7 +17,7 @@ class FirstTab extends React.Component {
             <div id="Robot_Information" className="tabcontent tab_contents">
                 <RobotInfoView/>
 
-                <StateView/>
+                <StateView sn={this.props.sn}/>
 
                 <EventScetion sn={this.props.sn}/>
 
