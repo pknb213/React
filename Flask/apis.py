@@ -77,8 +77,8 @@ def robot_state(sn):
     # Todo : 지금은 Static 값으로 테스트 한다.
     # dic = cache.hget(sn, 'state').decode('utf8')
 
-    dic = {'busy': 0, 'collision': 0, 'emergency': 0, 'error': 0, 'home': 0,
-           'finish': 0, 'ready': 1, 'resetting': 0, 'zero': 0, 'is_server_connected': 1}
+    dic = {'busy': 0, 'ready': 1, 'collision': 0, 'error': 0,  'programState': 0, 'emergency': 0,
+           'is_reporter_connected': 0, 'is_server_connected': 1}
     cache.hset(sn, 'state', str(dic))
     return jsonify(dic)
 
@@ -105,6 +105,20 @@ def events(sn):
                     '<img src="../static/img/icon-download.svg" alt="download_menu" /></a>' % (a[-1], i['sn'])
 
     return jsonify(res)
+
+
+@app.route("/clip/<sn>")
+def cam(sn):
+
+    return 'ok'
+
+
+@app.route("/get/clip/<sn>")
+def get_clip(sn):
+    print(os.path.join(os.getcwd(), 'upload'))
+    res = send_from_directory(os.path.join(os.getcwd(), 'upload'), 'Chronograf.mp4', as_attachment=True, attachment_filename= 'Chronograf.mp4')
+
+    return res
 
 
 @app.route("/test", methods=['GET'])

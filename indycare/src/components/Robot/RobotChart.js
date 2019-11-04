@@ -16,12 +16,12 @@ export class ChartSection extends React.Component {
                     </div>
                 </div>
 
-                <diV className="chart_section">
+                <div className="chart_section">
                     <h3>Temperature [TMP]</h3>
                     <div className="chart_tmp">
                         <canvas id="myTempChart"/>
                     </div>
-                </diV>
+                </div>
             </div>
         );
     }

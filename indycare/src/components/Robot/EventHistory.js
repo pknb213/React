@@ -2,10 +2,16 @@ import React from 'react';
 import iconHistory from "../../resources/Robot/icon-history.svg";
 import iconMore from "../../resources/Robot/icon-more.svg";
 import {EventDataTable} from "./EventDataTable";
+import Axios from "axios";
+import $ from "jquery";
 
 export class EventHistoryView extends React.Component {
     constructor(props) {
         super(props);
+
+    }
+
+    componentDidMount() {
 
     }
 

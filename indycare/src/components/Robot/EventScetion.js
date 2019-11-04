@@ -15,8 +15,7 @@ export class EventScetion extends React.Component{
     render() {
         return (
             <div className="event_section">
-                <CamView/>
-
+                <CamView sn={this.props.sn}/>
                 <EventHistoryView sn={this.props.sn}/>
             </div>
         );

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Img} from "./Image";
+import {Img, ImgOnly} from "./Image";
 import IndyCareLogo from "../../resources/List/img-logo.svg";
 import TextLogo from "../../resources/List/logo-indycare.svg";
 import ProfileImg from "../../resources/List/img_profile.svg";
@@ -20,9 +20,9 @@ class SideNavigator extends React.Component {
             <div className="side_nav">
                 <div className="brand_logo">
                     <a href="/">
-                        <Img src={IndyCareLogo} alt="indycare_logo"/>
+                        <ImgOnly src={IndyCareLogo} alt="indycare_logo"/>
                         <div>
-                            <Img src={TextLogo} alt="indycare_text_logo"/>
+                            <ImgOnly src={TextLogo} alt="indycare_text_logo"/>
                         </div>
                     </a>
                 </div>
