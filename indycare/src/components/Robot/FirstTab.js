@@ -21,7 +21,7 @@ class FirstTab extends React.Component {
 
                 <EventScetion sn={this.props.sn}/>
 
-                <ChartSection/>
+                <ChartSection sn={this.props.sn}/>
             </div>
         );
     }

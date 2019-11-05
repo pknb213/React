@@ -55,7 +55,7 @@ def robots(condition):
     return jsonify(res)
 
 
-@app.route("/robot/state/<sn>", methods=["POST"])
+@app.route("/robot/state/<sn>")
 def robot_state(sn):
     # sql = "SELECT state FROM robot_states " \
     #       "WHERE serial_number = \"%s\" AND date >= \"%s\" AND date < \"%s\" " \
@@ -113,12 +113,142 @@ def cam(sn):
     return 'ok'
 
 
+@app.route("/get/poster")
+def get_poster():
+    return send_from_directory(os.path.join(os.getcwd(), 'static/img'), 'video_loading.jpg')
+
+
 @app.route("/get/clip/<sn>")
 def get_clip(sn):
     print(os.path.join(os.getcwd(), 'upload'))
-    res = send_from_directory(os.path.join(os.getcwd(), 'upload'), 'Chronograf.mp4', as_attachment=True, attachment_filename= 'Chronograf.mp4')
+    path = os.path.join(os.getcwd(), 'upload')
+    res = send_from_directory(path, 'Chronograf.mp4')
 
     return res
+
+
+@app.route("/get/kpi/<sn>")
+def get_kpi(sn):
+    sql = "SELECT kpi0, kpi1, kpi2, kpi3, kpi4 FROM robots WHERE sn = \"%s\" " % sn
+    kpi_str = MySQL.select(sql, False)
+    print("KPI RES : ", kpi_str)
+    if not kpi_str: return jsonify('')
+    res = []
+    for k, v in kpi_str.items():
+        if v is not None:
+            v = v.split(',')
+            k = {'sn': sn, 'kpi': v[0], 'label': v[1], 'period': v[2], 'key': v[3], 'axis': v[4]}
+        else:
+            k = {'sn': None, 'kpi': None, 'label': None, 'period': None, 'key': None, 'axis': None}
+        res.append(k)
+    return jsonify(res)
+
+
+@app.route("/chart/data/<sn>/<axis>/<key>/recent/<period>")
+def get_chart_data(sn, axis, key, period):
+    # print("Opdata Loop SN : %s, Axis : %s, Key : %s, Time : %s" % (sn, axis, key, datetime.now().strftime(fmtAll)))
+    # if key == 'count':
+    #     sql = "SELECT DATE_FORMAT(CONVERT_TZ(MAX(x), '+00:00', '+09:00'), '%%m-%%d %%H:%%i') m, " \
+    #           "COUNT(y) from opdatas " \
+    #           "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" " \
+    #           "GROUP BY ROUND(UNIX_TIMESTAMP(x) / 600) ORDER BY m DESC LIMIT 10" \
+    #           % ((datetime.utcnow() - timedelta(minutes=180)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
+    #     res = MySQL.select(sql)
+    #     # print("Res : ", res)
+    #     if res is not False and res is not None:
+    #         for i in res:
+    #             i['x'] = i['m']
+    #             i['y'] = i['COUNT(y)']
+    #             del i['m'], i['COUNT(y)']
+    # elif key == 'mean' and axis == '1':
+    #     sql = "SELECT DATE_FORMAT(CONVERT_TZ(x, '+00:00', '+09:00'), '%%m-%%d %%H:%%i') m, ROUND(AVG(y), 2) " \
+    #           "FROM analog_opdatas " \
+    #           "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" GROUP BY m ORDER by m DESC LIMIT 80" \
+    #           % ((datetime.utcnow() - timedelta(hours=2)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
+    #     res = MySQL.select(sql)
+    #     if res is not False and res is not None:
+    #         for i in res:
+    #             i['x'] = i['m']
+    #             i['y'] = i['ROUND(AVG(y), 2)']
+    #             del i['m'], i['ROUND(AVG(y), 2)']
+    # elif key == 'mean' and axis == '6':
+    #     sql = "SELECT DATE_FORMAT(CONVERT_TZ(x, '+00:00', '+09:00'), '%%m-%%d %%H:%%i') m, " \
+    #           "ROUND(AVG(joint0), 2), ROUND(AVG(joint1), 2), " \
+    #           "ROUND(AVG(joint2), 2), ROUND(AVG(joint3), 2), " \
+    #           "ROUND(AVG(joint4), 2), ROUND(AVG(joint5), 2) FROM temperature_opdatas " \
+    #           "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" GROUP BY m ORDER by m DESC LIMIT 80" \
+    #           % ((datetime.utcnow() - timedelta(hours=2)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
+    #     res = MySQL.select(sql)
+    #     # print("Res : ", res)
+    #
+    #     az = []
+    #     bz = []
+    #     cz = []
+    #     dz = []
+    #     ez = []
+    #     fz = []
+    #
+    #     if res is None or type(res) is bool: return jsonify(res)
+    #     for i in res:
+    #         a = {'x': i['m'], 'y': i['ROUND(AVG(joint0), 2)']}
+    #         b = {'x': i['m'], 'y': i['ROUND(AVG(joint1), 2)']}
+    #         c = {'x': i['m'], 'y': i['ROUND(AVG(joint2), 2)']}
+    #         d = {'x': i['m'], 'y': i['ROUND(AVG(joint3), 2)']}
+    #         e = {'x': i['m'], 'y': i['ROUND(AVG(joint4), 2)']}
+    #         f = {'x': i['m'], 'y': i['ROUND(AVG(joint5), 2)']}
+    #         az.append(a)
+    #         bz.append(b)
+    #         cz.append(c)
+    #         dz.append(d)
+    #         ez.append(e)
+    #         fz.append(f)
+    #
+    #     aa = [az, bz, cz, dz, ez, fz]
+    #     return jsonify(aa)
+    # else:
+    #     res = None
+    # return jsonify(res)
+
+    res = [
+        {'x': (datetime.now() - timedelta(minutes=30)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=60)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=90)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=120)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=150)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=180)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=210)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=240)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=270)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=300)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=330)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=360)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=390)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=420)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=450)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=480)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=510)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=540)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=570)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=600)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=630)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=660)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=690)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=720)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=750)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=780)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=810)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=840)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=870)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=900)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=930)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=960)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=990)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=1200)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=1230)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+        {'x': (datetime.now() - timedelta(minutes=1260)).strftime(fmtAll), 'y': random.randrange(30, 100)}
+    ]
+
+    return jsonify(res)
 
 
 @app.route("/test", methods=['GET'])

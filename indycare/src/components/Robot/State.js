@@ -27,11 +27,11 @@ function StateDiv(props) {
 
     let rows = [];
 
-    console.log(state);
+    //console.log(state);
     // 0 ~ 9
     for (let key in state) {
         let imgElement;
-        console.log(key, state[key]);
+        //console.log(key, state[key]);
         if (state.hasOwnProperty(key)) {
             if (state[key] > 0) {
                 if (key === 'busy')
@@ -109,7 +109,7 @@ class StateView extends React.Component {
     }
 
     tick() {
-        Axios.post('http://localhost:4000/robot/state/' + this.props.sn)
+        Axios.get('http://localhost:4000/robot/state/' + this.props.sn)
             .then(res => {
                     //console.log(res);
                     this.setState({robotState: res});
