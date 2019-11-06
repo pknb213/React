@@ -14,11 +14,12 @@ class CamView extends React.Component {
     }
 
     componentDidMount() {
+        this.clip(); // Before Loop
         this.timerID = setInterval(
-            () => this.tick(), 2000
+            () => this.tick(), 1000
         );
         this.videoID = setInterval(
-            () => this.clip(), 10000
+            () => this.clip(), 30000
         );
     }
 

@@ -77,8 +77,8 @@ def robot_state(sn):
     # Todo : 지금은 Static 값으로 테스트 한다.
     # dic = cache.hget(sn, 'state').decode('utf8')
 
-    dic = {'busy': 0, 'ready': 1, 'collision': 0, 'error': 0,  'programState': 0, 'emergency': 0,
-           'is_reporter_connected': 0, 'is_server_connected': 1}
+    dic = {'busy': random.randrange(0,2), 'ready': random.randrange(0,2), 'collision': random.randrange(0,2), 'error': random.randrange(0,2),  'programState': random.randrange(0,2), 'emergency': random.randrange(0,2),
+           'is_reporter_connected': random.randrange(0,2), 'is_server_connected': random.randrange(0,2)}
     cache.hset(sn, 'state', str(dic))
     return jsonify(dic)
 
