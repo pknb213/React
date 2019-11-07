@@ -76,7 +76,7 @@ export class ChartSection extends React.Component {
         return (
             <div className="robot_chart">
                 <BarGraph data={this.state.kpi0}/>
-                <LineGraph data={this.state.kpi0} data2={this.state.kpi1}/>
+                <LineGraph data={[this.state.kpi0,this.state.kpi1,this.state.kpi2,this.state.kpi3]}/>
             </div>
         );
     }

@@ -37,7 +37,11 @@ class DataTableComponent extends React.Component {
                         {data: 'state'},
                         {data: 'enter'},
                     ]
-                })
+                });
+                this.table.rows().every((index)=> {
+                     let str = this.table.cell(index, 7).data();
+                     this.table.cell(index, 7).data(str + '<img alt="" src=' + Monitering + '></a>');
+                });
             })
             .catch(e => {
                 alert(e);

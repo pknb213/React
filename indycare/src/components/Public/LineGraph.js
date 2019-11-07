@@ -21,7 +21,7 @@ export default class LineGraph extends React.PureComponent {
         let myChartRef = this.chartRef.current.getContext("2d");
         myChartRef.canvas.width = '1200px';
         myChartRef.canvas.height = '300px';
-        const {data, data2, labels} = this.props;
+        const {data, labels} = this.props;
 
         if (typeof myLineChart !== "undefined") myLineChart.destroy();
 
@@ -39,7 +39,7 @@ export default class LineGraph extends React.PureComponent {
                         // {'x': '11-06 03:15:00', 'y': 11},
                         // {'x': '11-06 03:14:00', 'y': 34},
                         // {'x': '11-06 03:13:00', 'y': 78}],
-                        data: data,
+                        data: data[0],
                         fill: false,
                         backgroundColor: "rgba(255,99,132,0.2)",
                         borderColor: "rgba(255,99,132)",
@@ -54,10 +54,40 @@ export default class LineGraph extends React.PureComponent {
                         // {'x': '11-06 03:15:00', 'y': 21},
                         // {'x': '11-06 03:14:00', 'y': 66},
                         // {'x': '11-06 03:13:00', 'y': 54}],
-                        data: data2,
+                        data: data[1],
                         fill: false,
                         backgroundColor: "rgba(255,205,86,0.2)",
                         borderColor: "rgba(255,205,86)",
+                        borderWidth: 1,
+                        lineTension: 0.2,
+                        pointRadius: 1.5
+                    },
+                    {
+                        label: "League Of Legend",
+                        //data: [77, 42, 12, 33, 55, 88],
+                        // data: [{'x': '11-06 03:16:00', 'y': 34},
+                        // {'x': '11-06 03:15:00', 'y': 21},
+                        // {'x': '11-06 03:14:00', 'y': 66},
+                        // {'x': '11-06 03:13:00', 'y': 54}],
+                        data: data[2],
+                        fill: false,
+                        backgroundColor: "rgba(75,192,192,0.2)",
+                        borderColor: "rgba(75,192,192)",
+                        borderWidth: 1,
+                        lineTension: 0.2,
+                        pointRadius: 1.5
+                    },
+                    {
+                        label: "Unite Underground",
+                        //data: [77, 42, 12, 33, 55, 88],
+                        // data: [{'x': '11-06 03:16:00', 'y': 34},
+                        // {'x': '11-06 03:15:00', 'y': 21},
+                        // {'x': '11-06 03:14:00', 'y': 66},
+                        // {'x': '11-06 03:13:00', 'y': 54}],
+                        data: data[3],
+                        fill: false,
+                        backgroundColor: "rgba(255,159,64,0.2)",
+                        borderColor: "rgba(255,159,64)",
                         borderWidth: 1,
                         lineTension: 0.2,
                         pointRadius: 1.5

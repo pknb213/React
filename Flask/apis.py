@@ -2,6 +2,7 @@ from utils import *
 from login import User, login_user, current_user, LoginRequired
 
 
+# For Login Page
 @app.route('/', methods=["POST"])
 def home():
     if User.check_user(request.json['email'], request.json['pwd']):
@@ -19,6 +20,7 @@ def home():
         return jsonify("Fuck")
 
 
+# For Robot List Page
 @app.route("/datatable/robots/<condition>")
 def robots(condition):
     if condition is 'all':
@@ -49,12 +51,13 @@ def robots(condition):
                 else:
                     i['state'] = 0
             i['kpi'] = i['kpi0'] + ', ' + i['kpi1'] + ', ' + i['kpi2'] + ', ' + i['kpi3'] + ', ' + i['kpi4']
-            i['enter'] = '<a href=/display/%s>Display</a>' % i['sn']
+            i['enter'] = '<a href=/display/%s>' % i['sn']
             del i['kpi0'], i['kpi1'], i['kpi2'], i['kpi3'], i['kpi4']
 
     return jsonify(res)
 
 
+# For Robot Detail Page - State
 @app.route("/robot/state/<sn>")
 def robot_state(sn):
     # sql = "SELECT state FROM robot_states " \
@@ -77,20 +80,28 @@ def robot_state(sn):
     # Todo : 지금은 Static 값으로 테스트 한다.
     # dic = cache.hget(sn, 'state').decode('utf8')
 
-    dic = {'busy': random.randrange(0,2), 'ready': random.randrange(0,2), 'collision': random.randrange(0,2), 'error': random.randrange(0,2),  'programState': random.randrange(0,2), 'emergency': random.randrange(0,2),
-           'is_reporter_connected': random.randrange(0,2), 'is_server_connected': random.randrange(0,2)}
+    dic = {'busy': random.randrange(0, 2), 'ready': random.randrange(0, 2), 'collision': random.randrange(0, 2),
+           'error': random.randrange(0, 2), 'programState': random.randrange(0, 2), 'emergency': random.randrange(0, 2),
+           'is_reporter_connected': random.randrange(0, 2), 'is_server_connected': random.randrange(0, 2)}
     cache.hset(sn, 'state', str(dic))
     return jsonify(dic)
 
 
-@app.route("/datatable/events/<sn>")
-def events(sn):
-    # todo : DataTable에 출력할 용도인 API
-    sql = "SELECT idx, json, file, sn, " \
-          "DATE_FORMAT(CONVERT_TZ(occurrence_time, '+00:00', '+09:00'), '%%Y-%%m-%%d %%H:%%i:%%s') " \
-          "as occurrence_time " \
-          "FROM events " \
-          "WHERE sn=\"%s\" ORDER BY occurrence_time DESC LIMIT 5 " % sn
+# For Robot Detail Page - Events
+@app.route("/datatable/events/<sn>/<condition>")
+def events(sn, condition):
+    if condition == 'all':
+        sql = "SELECT idx, json, file, sn, " \
+              "DATE_FORMAT(CONVERT_TZ(occurrence_time, '+00:00', '+09:00'), '%%Y-%%m-%%d %%H:%%i:%%s') " \
+              "as occurrence_time " \
+              "FROM events " \
+              "WHERE sn=\"%s\" ORDER BY occurrence_time DESC " % sn
+    else:
+        sql = "SELECT idx, json, file, sn, " \
+              "DATE_FORMAT(CONVERT_TZ(occurrence_time, '+00:00', '+09:00'), '%%Y-%%m-%%d %%H:%%i:%%s') " \
+              "as occurrence_time " \
+              "FROM events " \
+              "WHERE sn=\"%s\" ORDER BY occurrence_time DESC LIMIT 5 " % sn
     res = MySQL.select(sql, True)
 
     if not res: return jsonify('')
@@ -101,23 +112,30 @@ def events(sn):
         i['code'] = get_robot_code_description(a['code'])
         # a = a['log'].split('\\')  # For Window
         a = a['log'].split('/')  # For Linux
-        i['down'] = '<a class=c_hyper href=/file/event/%s/%s>' \
-                    '<img src="../static/img/icon-download.svg" alt="download_menu" /></a>' % (a[-1], i['sn'])
+        i['down'] = '<a class=c_hyper href=/file/event/%s/%s>' % (a[-1], i['sn'])
 
     return jsonify(res)
 
 
+# For Robot Detail Page - Events
+@app.route("/datatable/event/<filename>/<sn>")
+def request(filename, sn):
+    return 1
+
+
+# For Robot Detail Page - Video
 @app.route("/clip/<sn>")
 def cam(sn):
-
     return 'ok'
 
 
+# For Robot Detail Page - Video
 @app.route("/get/poster")
 def get_poster():
     return send_from_directory(os.path.join(os.getcwd(), 'static/img'), 'video_loading.jpg')
 
 
+# For Robot Detail Page - Video
 @app.route("/get/clip/<sn>")
 def get_clip(sn):
     print(os.path.join(os.getcwd(), 'upload'))
@@ -127,6 +145,7 @@ def get_clip(sn):
     return res
 
 
+# For Robot Detail Page - Chart
 @app.route("/get/kpi/<sn>")
 def get_kpi(sn):
     sql = "SELECT kpi0, kpi1, kpi2, kpi3, kpi4 FROM robots WHERE sn = \"%s\" " % sn
@@ -144,6 +163,7 @@ def get_kpi(sn):
     return jsonify(res)
 
 
+# For Robot Detail Page - Chart
 @app.route("/chart/data/<sn>/<axis>/<key>/recent/<period>")
 def get_chart_data(sn, axis, key, period):
     # print("Opdata Loop SN : %s, Axis : %s, Key : %s, Time : %s" % (sn, axis, key, datetime.now().strftime(fmtAll)))
@@ -251,9 +271,43 @@ def get_chart_data(sn, axis, key, period):
     return jsonify(res)
 
 
+""" Reporter APIs """
+
+
+@app.route("/reporter/robot/info", methods=["POST"])
+def post_sn_from_reporter():
+    return 1
+
+
+@app.route("/reporter/robot/state/<sn>", methods=["POST"])
+def post_robot_state(sn):
+    return 1
+
+
+@app.route("/reporter/robot/event/<file>/<sn>", methods=["POST"])
+def post_robot_event(file, sn):
+    return 1
+
+
+@app.route("/reporter/chart/data/<sn>", methods=["POST"])
+def post_robot_chart_data(sn):
+    return 1
+
+
+@app.route("/reporter/robot/kpi/<sn>", methods=["POST"])
+def post_robot_kpi(sn):
+    return 1
+
+
+""" Test APIs"""
+
+
 @app.route("/test", methods=['GET'])
 @LoginRequired("user")
 def test():
     print(current_user.is_authenticated)
     print(current_user.id)
     return jsonify("Fuck")
+
+
+

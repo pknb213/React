@@ -9,8 +9,12 @@ import {EventHistoryView} from "./EventHistory";
 export class EventScetion extends React.Component{
     constructor(props) {
         super(props);
+        this.state = {
 
+        }
     }
+
+    // 여기다 Server Side Event 정의해야 함.
 
     render() {
         return (
