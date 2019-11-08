@@ -2,10 +2,10 @@ import React from 'react';
 import './HeaderTitle.css'
 
 class HeaderTitle extends React.Component{
-    constructor(props) {
-        super(props);
-
-    }
+    // constructor(props) {
+    //     super(props);
+    //
+    // }
 
     render() {
         return (
@@ -14,7 +14,7 @@ class HeaderTitle extends React.Component{
                 <div className="breadcrumb">
                     <ul>
                         <li><a href="/">HOME</a></li>
-                        <li className="on"><a href="#">{this.props.breadcrumb}</a></li>
+                        <li className="on"><a href="/">{this.props.breadcrumb}</a></li>
                     </ul>
                 </div>
             </div>

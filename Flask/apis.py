@@ -10,7 +10,7 @@ def home():
         login_user(user)
         print("> Login : ", user.id)
 
-        # Todo : 권한에 따른 페이지를 위한 Prams 전달.
+        # Todo : 권한에 따른 페이지를 위한 Prams 전달. React에서 랜더링하면 User가 초기화 됨.
         if user.permission == 'user':
             return jsonify('ok')
         else:
@@ -112,7 +112,7 @@ def events(sn, condition):
         i['code'] = get_robot_code_description(a['code'])
         # a = a['log'].split('\\')  # For Window
         a = a['log'].split('/')  # For Linux
-        i['down'] = '<a class=c_hyper href=/file/event/%s/%s>' % (a[-1], i['sn'])
+        i['down'] = '<a class=c_hyper href=http://localhost:4000/datatable/event/%s/%s>' % (a[-1], i['sn'])
 
     return jsonify(res)
 
@@ -120,7 +120,18 @@ def events(sn, condition):
 # For Robot Detail Page - Events
 @app.route("/datatable/event/<filename>/<sn>")
 def request(filename, sn):
-    return 1
+    print(filename, sn, request)
+    load_sse_command(sn, '_event', {'sn': sn, 'filename': filename})
+
+    t1 = t0 = datetime.now()
+    while t1.timestamp() - t0.timestamp() <= app.config['ROBOT_DATA_WAIT_TIMEOUT']:
+        time.sleep(1)
+        t1 = datetime.now()
+        print("Wait : ", t1.timestamp() - t0.timestamp())
+
+        # Todo : File 다운 받는 코드 작성 필요
+
+    return redirect('http://localhost:3000/display/' + sn)
 
 
 # For Robot Detail Page - Video
@@ -141,6 +152,8 @@ def get_clip(sn):
     print(os.path.join(os.getcwd(), 'upload'))
     path = os.path.join(os.getcwd(), 'upload')
     res = send_from_directory(path, 'Chronograf.mp4')
+
+    # Todo : Clip 요청하는 코드 작성 필요
 
     return res
 

@@ -8,10 +8,10 @@ import './TopMenu.css'
 // <input type=submit> 태그에서 value를 안넣으면 '제출' string이 출력 됨. 추후에 버튼 CSS 입혀서 만들면 될 듯.
 
 class TopMenu extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
+    // constructor(props) {
+    //     super(props);
+    //
+    // }
 
     render() {
         return (

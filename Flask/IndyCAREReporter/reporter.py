@@ -1,5 +1,5 @@
 import sys, os
-
+from multiprocessing import Process
 sys.path.append(os.getcwd() + os.path.sep + 'reporter_conf')
 from http_conf import *
 from util_conf import *
@@ -369,7 +369,6 @@ def clip_uploader(sn, shm):
 if __name__ == '__main__':
     set_start_method('spawn', True)
     shm = ReporterProcessState(REPORTER_PROCESS_SHM, REPORTER_PROCESS_STATE_ADDR, REPORTER_PROCESS_SHM_SIZE)
-    #
     # while True:
     #     f1 = check_task_manager()
     #     f2 = check_shm()

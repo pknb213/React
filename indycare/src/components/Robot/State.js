@@ -17,7 +17,7 @@ import unstateStopIcon from '../../resources/Robot/inactive/icon_state_stop.svg'
 import unemergencyIcon from '../../resources/Robot/inactive/icon_energency.svg';
 import reporterNotConnectIcon from '../../resources/Robot/inactive/icon_report_connected.svg';
 import serverNotConnectIcon from '../../resources/Robot/inactive/icon_server_connected.svg';
-import {Img, ImgOnly} from "../Public/Image";
+import {ImgOnly} from "../Public/Image";
 
 function StateDiv(props) {
     //console.log(props.state.data);

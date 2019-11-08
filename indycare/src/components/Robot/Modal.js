@@ -1,5 +1,4 @@
 import React from 'react';
-import Axios from 'axios';
 import $ from 'jquery';
 import DataTable from 'datatables.net-dt';
 import DownIcon from '../../resources/Robot/icon-download.svg';
@@ -7,46 +6,41 @@ import DownIcon from '../../resources/Robot/icon-download.svg';
 $.DataTable = DataTable;
 
 export class Modal extends React.Component {
-    constructor(props) {
-        super(props);
-        // this.myRef = React.createRef();
-    }
+    // constructor(props) {
+    //     super(props);
+    //     // this.myRef = React.createRef();
+    // }
 
     componentDidMount(nextProps, nextState) {
-        Axios.get('http://localhost:4000/datatable/events/' + this.props.sn + '/all')
-            .then(res => {
-                console.log(res);
-                this.table = $(this.refs.main).DataTable({
-                    data: res.data,
-                    process: true,
-                    searching: false,
-                    paging: false,
-                    bInfo: false,
-                    order: [[0, 'asc']],
-                    columns: [
-                        {"data": "occurrence_time"},
-                        {"data": "code"},
-                        {"data": "down"}
-                    ],
-                    language: {
-                        "emptyTable": "저장된 이벤트 데이터가 없습니다."
-                    }
-                });
-                this.table.rows().every((index) => {
-                    let a = this.table.cell(index, 2).data();
-                    this.table.cell(index, 2).data(a + '<img alt="" src=' + DownIcon + '></a>');
-                });
-            }).catch(e => {
-            alert(e);
-        }).finally(() => {
-
+        this.table = $(this.refs.main).DataTable({
+            data: this.props.data,
+            process: true,
+            searching: false,
+            paging: false,
+            bInfo: false,
+            order: [[0, 'asc']],
+            columns: [
+                {"data": "occurrence_time"},
+                {"data": "code"},
+                {"data": "down"}
+            ],
+            language: {
+                "emptyTable": "저장된 이벤트 데이터가 없습니다."
+            }
         });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        this.table.clear();
-        //this.table.rows.add(this.transform(this.props.data));
-        this.table.draw();
+        if (this.props.data.length > 0 && prevProps.data !== this.props.data) {
+            let table = $(this.refs.main).DataTable();
+            table.clear();
+            table.rows.add(this.props.data);
+            table.rows().every((index) => {
+                let str = table.cell(index, 2).data();
+                table.cell(index, 2).data(str + '<img alt="" src=' + DownIcon + '></a>');
+            });
+            table.draw();
+        }
     }
 
     componentWillUnmount() {

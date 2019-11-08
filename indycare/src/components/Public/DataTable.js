@@ -1,6 +1,5 @@
 import React from "react";
 import Axios from 'axios';
-import ReactDataTable from 'react-data-table-component';
 import './DataTable.css';
 import $ from 'jquery';
 import DataTable from 'datatables.net-dt';
@@ -10,10 +9,10 @@ $.DataTable = DataTable;
 
 
 class DataTableComponent extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
+    // constructor(props) {
+    //     super(props);
+    //
+    // }
 
     componentDidMount(nextProps, nextState) {
         Axios.get('http://localhost:4000/datatable/robots/all')
@@ -49,13 +48,9 @@ class DataTableComponent extends React.Component {
             .finally(() => {
 
             });
-
     }
 
     componentDidUpdate() {
-        this.table.clear();
-        this.table.rows.add(this.transform(this.props.data));
-        this.table.draw();
     }
 
     componentWillUnmount() {

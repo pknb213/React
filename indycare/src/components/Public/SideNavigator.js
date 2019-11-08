@@ -10,10 +10,10 @@ import HomepageLogo from "../../resources/List/neuromeka.svg";
 import "./SideNavigator.css";
 
 class SideNavigator extends React.Component {
-    constructor(props) {
-        super(props);
-
-    }
+    // constructor(props) {
+    //     super(props);
+    //
+    // }
 
     render() {
         return (
@@ -36,31 +36,31 @@ class SideNavigator extends React.Component {
                             <span>admin</span>
                         </div>
                         <div className="profile_menu">
-                            <Img src={DropdownMenu} href="#" alt="dropdown_menu"/>
+                            <Img src={DropdownMenu} href="/" alt="dropdown_menu"/>
                         </div>
                     </div>
 
                     <nav className="nav_menu">
                         <ul className="sub_menu">
                             <li className="sub" hidden>
-                                <Img src={UserIcon} alt="User_icon" href="#" text="User"/>
+                                <Img src={UserIcon} alt="User_icon" href="/" text="User"/>
                                 <ul>
                                     <li>
-                                        <a href="#">User<br/>List</a>
+                                        <a href="/">User<br/>List</a>
                                     </li>
                                     <li>
-                                        <a href="#">User<br/>Register</a>
+                                        <a href="/">User<br/>Register</a>
                                     </li>
                                 </ul>
                             </li>
                             <li className="sub">
-                                <Img src={CompanyIcon} alt="Company_icon" href="#" text="Robots"/>
+                                <Img src={CompanyIcon} alt="Company_icon" href="/" text="Robots"/>
                                 <ul hidden>
                                     <li>
-                                        <a href="#">Company<br/>List</a>
+                                        <a href="/">Company<br/>List</a>
                                     </li>
                                     <li>
-                                        <a href="#">Company<br/>Register</a>
+                                        <a href="/">Company<br/>Register</a>
                                     </li>
                                 </ul>
                             </li>
