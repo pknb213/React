@@ -40,7 +40,7 @@ def check_shm():
             print(">> Control State SHM : ", ControlState(INDY_SHM, INDY_SHM_ROBOT_CTRL_STATUS_ADDR, ROBOT_CTRL_STATUS_SHM_SIZE))
             print(">> System State SHM : ",SystemState(NRMK_SHM, NRMK_SHM_SYSTEM_ADDR, SYSTEM_SHM_SIZE))
             print(">> MSG Counter : ", MessageCounter(MSG_COUNTER_SHM, 0, 4))
-            #print(">> MSG Queue : ", MessageQueue(POSIX_MSG_QUEUE, flags=O_CREAT, mode=0o666, max_messages=100, max_message_size=1024))
+            print(">> MSG Queue : ", MessageQueue(POSIX_MSG_QUEUE, flags=O_CREAT, mode=0o666, max_messages=100, max_message_size=1024))
 
         except Exception as e:
                 print(">>>> Fail to Initialize : ", e)
@@ -57,7 +57,7 @@ def check_robot_info():
     while True:
         try:
             print("\n**************** Robot information Checking ... **************** ")
-            shm = RobotInfoData(INDY_SHM, INDY_SHM_ROBOT_INFO_ADDR, RxOBOT_INFO_SHM_SIZE)
+            shm = RobotInfoData(INDY_SHM, INDY_SHM_ROBOT_INFO_ADDR, ROBOT_INFO_SHM_SIZE)
             sn = shm.get_serial_number(shm)
             print(shm.get_all_robot_info_data(shm))
         except Exception as e:

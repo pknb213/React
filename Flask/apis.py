@@ -119,7 +119,7 @@ def events(sn, condition):
 
 # For Robot Detail Page - Events
 @app.route("/datatable/event/<filename>/<sn>")
-def request(filename, sn):
+def request_event(filename, sn):
     print(filename, sn, request)
     load_sse_command(sn, '_event', {'sn': sn, 'filename': filename})
 
@@ -294,22 +294,63 @@ def post_sn_from_reporter():
 
 @app.route("/reporter/robot/state/<sn>", methods=["POST"])
 def post_robot_state(sn):
-    return 1
+    # todo : State Dic
+    print("Reporter State :", request.json)
+    sql = "INSERT INTO robot_states(serial_number, state) VALUES (\"%s\", \"%s\") " \
+          % (sn, request.json)
+    MySQL.insert(sql)
+    return Response("ok")
 
 
 @app.route("/reporter/robot/event/<file>/<sn>", methods=["POST"])
 def post_robot_event(file, sn):
+    # todo : Event Down
     return 1
 
 
 @app.route("/reporter/chart/data/<sn>", methods=["POST"])
 def post_robot_chart_data(sn):
-    return 1
+    # todo : Chart Data Dic    if request.method == 'POST':
+    # todo : Message Type에 따른 Count, Mean 등 조건으로 나눠서 Query를 변환해야 함
+    # mtype, msg, mdata
+    if request.json['mtype'] is 1:
+        print(request.json)
+        sql = "INSERT INTO opdatas(msg, y, serial_number) " \
+              "VALUES (\"%s\", \"%s\", \"%s\") " % (request.json['msg'], request.json['mdata'], sn)
+        MySQL.insert(sql)
+    elif request.json['mtype'] is 2:
+        # print(request.json, len(request.json['mdata']))
+        if len(request.json['mdata']) == 1:
+            sql = 'INSERT INTO analog_opdatas(msg, serial_number, y) VALUES (\"%s\", \"%s\", \"%s\") ' \
+                  % (request.json['msg'], sn, request.json['mdata'])
+        else:
+            temp = request.json['mdata'].split(',')
+            sql = "INSERT INTO temperature_opdatas(msg, serial_number, joint0, joint1, joint2, joint3, joint4, joint5) " \
+                  "VALUES (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\") " \
+                  % (request.json['msg'], sn, temp[0], temp[1], temp[2], temp[3], temp[4], temp[5])
+        MySQL.insert(sql)
+    else:
+        print("Insert Fail : ", request.json)
+    return Response('ok')
+    # sql = "INSERT INTO opdatas(x, y) VALUES (\"%s\", \"%s\") " % (request.json['x'], request.json['y'])
+    # MySQL.insert(sql)
 
 
 @app.route("/reporter/robot/kpi/<sn>", methods=["POST"])
 def post_robot_kpi(sn):
-    return 1
+    # todo : KPI Dic
+    # todo : 존재하면 Update로 해야함
+    print("Reporter KPI :", request.json)
+    if request.json is not None or request.json is not False:
+        kpi_num = request.json['mdata'].split(',')[0]
+    else:
+        return Response('Fail')
+    sql = "INSERT INTO robots (sn, %s) " \
+          "VALUES (\"%s\", \"%s\") " \
+          "ON DUPLICATE KEY UPDATE %s=\"%s\" " \
+          % (kpi_num, sn, request.json['mdata'], kpi_num, request.json['mdata'])
+    MySQL.insert(sql)
+    return Response('ok')
 
 
 """ Test APIs"""

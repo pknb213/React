@@ -1,15 +1,15 @@
 import sys, os
-from multiprocessing import Process
+
 sys.path.append(os.getcwd() + os.path.sep + 'reporter_conf')
-from http_conf import URL, SSEClient
-from util_conf import requests, Process, Queue, set_start_method, random, datetime, time, MessageQueue, O_CREAT, set_proc_name, check_robot_info, check_shm, check_task_manager, json
-from event_conf import EventFiles
+from http_conf import *
+from util_conf import *
+from event_conf import *
 from indyShm_conf import *
 from reporterShm_conf import *
 
-
 # ROBOT_SERIAL_NUMBER = 'GLOBALTEST12'
 ROBOT_SERIAL_NUMBER = 'D1234'
+
 
 def show_reporter_info():
     print("\n*********** Reporter Information *************")
@@ -19,6 +19,7 @@ def show_reporter_info():
 def test_process(sn='D1234'):
     # todo : Test
     s = requests.Session()
+    # s.post(URL + '/login', {'id': sn, 'pwd': sn})
     i = 0
     while True:
         try:
@@ -368,32 +369,30 @@ def clip_uploader(sn, shm):
 if __name__ == '__main__':
     set_start_method('spawn', True)
     shm = ReporterProcessState(REPORTER_PROCESS_SHM, REPORTER_PROCESS_STATE_ADDR, REPORTER_PROCESS_SHM_SIZE)
-    while True:
-        #f1 = check_task_manager()
-        f2 = check_shm()
-        #sn = check_robot_info()
-        #shm.write_serial_number(shm, sn)
-        #todo : Temp sn
-        sn = 'D1234'
-        ROBOT_SERIAL_NUMBER = sn
-        #print("Robot SerialNumber : ", shm.get_serial_number_value(shm))
-        #if f1 is True and f2 is True and sn:
-        if f2 is True and sn:
-            s = requests.Session()
-            s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
-            time.sleep(0.5)
-            s.close()
-            time.sleep(2.5)
-            break
+    #
+    # while True:
+    #     f1 = check_task_manager()
+    #     f2 = check_shm()
+    #     sn = check_robot_info()
+    #     shm.write_serial_number(shm, sn)
+    #     ROBOT_SERIAL_NUMBER = sn
+    #     print("Robot SerialNumber : ", shm.get_serial_number_value(shm))
+    #     if f1 is True and f2 is True and sn:
+    #         s = requests.Session()
+    #         s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
+    #         time.sleep(0.5)
+    #         s.close()
+    #         time.sleep(2.5)
+    #         break
 
     show_reporter_info()
     q = Queue()
     p1 = Process(target=event_log_uploader, args=(ROBOT_SERIAL_NUMBER, shm, ))
-    #p2 = Process(target=clip_uploader, args=(ROBOT_SERIAL_NUMBER, shm, ))
+    p2 = Process(target=clip_uploader, args=(ROBOT_SERIAL_NUMBER, shm, ))
     # p3 = Process(target=task_server, args=(q, ROBOT_SERIAL_NUMBER,))
     # p4 = Process(target=test_process, args=(ROBOT_SERIAL_NUMBER,))
-    #p1.start()
-    #p2.start()
+    p1.start()
+    p2.start()
     # p3.start()
     # p4.start()
     time.sleep(1)
@@ -402,5 +401,5 @@ if __name__ == '__main__':
     q.join_thread()
     # p4.join()
     # p3.join()
-    #p2.join()
-    #p1.join()
+    p2.join()
+    p1.join()

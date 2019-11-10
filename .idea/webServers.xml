@@ -10,6 +10,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="f2ee01b5-2a58-4012-84cf-6ea579f38530" name="local" url="http://127.0.0.1">
+        <fileTransfer host="127.0.0.1" port="22" rootFolder="/home/cheon/IndyCARE" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>
