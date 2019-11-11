@@ -15,33 +15,33 @@ class ShmWrapperForReporter(object):
         self.offset = offset + INDY_SHM_MGR_OFFSET
         self.size = size + ROBOT_SN_LENGHT_MAX
         self.fmt = 'bbbbb%ss' % ROBOT_SN_LENGHT_MAX
-        lseek(self.shm_fd, self.offset, SEEK_SET)
+        lseek(self.shm.fd, self.offset, SEEK_SET)
 
         self.write(0, 0, 0, 0, 0, 'INIT12345678'.encode('utf-8'))
 
     def read(self):
-        lseek(self.shm_fd, self.offset, SEEK_SET)
-        return read(self.shm_fd, self.size)
-        # return unpack(self.fmt, read(self.shm_fd, self.size))
+        lseek(self.shm.fd, self.offset, SEEK_SET)
+        return read(self.shm.fd, self.size)
+        # return unpack(self.fmt, read(self.shm.fd, self.size))
 
     def write(self, b1, b2, b3, b4, b5, s):
-        lseek(self.shm_fd, self.offset, SEEK_SET)
-        # return write(self.shm_fd, self.size)
-        write(self.shm_fd, pack(self.fmt, b1, b2, b3, b4, b5, s))
+        lseek(self.shm.fd, self.offset, SEEK_SET)
+        # return write(self.shm.fd, self.size)
+        write(self.shm.fd, pack(self.fmt, b1, b2, b3, b4, b5, s))
 
 
 class ReporterProcessState(ShmWrapperForReporter):
     def __del__(self):
-        lseek(self.shm_fd, self.offset, SEEK_SET)
-        write(self.shm_fd, pack('b', 0))
-        lseek(self.shm_fd, self.offset + 1, SEEK_SET)
-        write(self.shm_fd, pack('b', 0))
-        lseek(self.shm_fd, self.offset + 2, SEEK_SET)
-        write(self.shm_fd, pack('b', 0))
-        lseek(self.shm_fd, self.offset + 3, SEEK_SET)
-        write(self.shm_fd, pack('b', 0))
-        lseek(self.shm_fd, self.offset + 4, SEEK_SET)
-        write(self.shm_fd, pack('b', 0))
+        lseek(self.shm.fd, self.offset, SEEK_SET)
+        write(self.shm.fd, pack('b', 0))
+        lseek(self.shm.fd, self.offset + 1, SEEK_SET)
+        write(self.shm.fd, pack('b', 0))
+        lseek(self.shm.fd, self.offset + 2, SEEK_SET)
+        write(self.shm.fd, pack('b', 0))
+        lseek(self.shm.fd, self.offset + 3, SEEK_SET)
+        write(self.shm.fd, pack('b', 0))
+        lseek(self.shm.fd, self.offset + 4, SEEK_SET)
+        write(self.shm.fd, pack('b', 0))
 
     @property
     def task_process(self):
@@ -71,53 +71,53 @@ class ReporterProcessState(ShmWrapperForReporter):
 
     @staticmethod
     def on_task_process_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 1))
+        lseek(indyshm.shm.fd, indyshm.offset, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 1))
 
     @staticmethod
     def on_clip_process_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset + 1, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 1))
+        lseek(indyshm.shm.fd, indyshm.offset + 1, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 1))
 
     @staticmethod
     def on_log_process_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset + 2, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 1))
+        lseek(indyshm.shm.fd, indyshm.offset + 2, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 1))
 
     @staticmethod
     def on_zip_process_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset + 3, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 1))
+        lseek(indyshm.shm.fd, indyshm.offset + 3, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 1))
 
     @staticmethod
     def on_serial_number_register_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset + 4, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 1))
+        lseek(indyshm.shm.fd, indyshm.offset + 4, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 1))
 
     @staticmethod
     def off_task_process_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 0))
+        lseek(indyshm.shm.fd, indyshm.offset, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 0))
 
     @staticmethod
     def off_clip_process_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset + 1, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 0))
+        lseek(indyshm.shm.fd, indyshm.offset + 1, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 0))
 
     @staticmethod
     def off_log_process_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset + 2, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 0))
+        lseek(indyshm.shm.fd, indyshm.offset + 2, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 0))
 
     @staticmethod
     def off_zip_process_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset + 3, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 0))
+        lseek(indyshm.shm.fd, indyshm.offset + 3, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 0))
 
     @staticmethod
     def off_serial_number_register_state(indyshm):
-        lseek(indyshm.shm_fd, indyshm.offset + 4, SEEK_SET)
-        return write(indyshm.shm_fd, pack('b', 0))
+        lseek(indyshm.shm.fd, indyshm.offset + 4, SEEK_SET)
+        return write(indyshm.shm.fd, pack('b', 0))
 
     @staticmethod
     def get_all_reporter_state(indyshm):
@@ -146,6 +146,6 @@ class ReporterProcessState(ShmWrapperForReporter):
 
     @staticmethod
     def write_serial_number(indyshm, _str):
-        lseek(indyshm.shm_fd, indyshm.offset + 5, SEEK_SET)
-        return write(indyshm.shm_fd, pack('%ss' % len(_str.encode()), _str.encode()))
+        lseek(indyshm.shm.fd, indyshm.offset + 5, SEEK_SET)
+        return write(indyshm.shm.fd, pack('%ss' % len(_str.encode()), _str.encode()))
 

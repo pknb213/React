@@ -76,12 +76,12 @@ class ShmWrapper(object):
         # print("Shared Memory:", name, self.offset, size)
 
     def read(self):
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        return read(self.shm.fd, self.size)
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        return read(self.shm_fd, self.size)
 
     def write(self):
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        return write(self.shm.fd, self.size)
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        return write(self.shm_fd, self.size)
 
 
 class MessageCounter(ShmWrapper):
@@ -91,13 +91,13 @@ class MessageCounter(ShmWrapper):
 
     def inc(self):
         cnt = self.counter + 1
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        write(self.shm.fd, pack('I', cnt))
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        write(self.shm_fd, pack('I', cnt))
         # print('counter increased', cnt, self.counter)
 
     def set(self, cnt):
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        write(self.shm.fd, pack('I', cnt))
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        write(self.shm_fd, pack('I', cnt))
 
 
 class ErrorCode(ShmWrapper):
@@ -228,10 +228,10 @@ class RobotInfoData(ShmWrapper):
 
 class ReporterState(ShmWrapper):
     def __del__(self):
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        write(self.shm.fd, pack('b', 0))
-        lseek(self.shm.fd, self.offset + 1, SEEK_SET)
-        write(self.shm.fd, pack('b', 0))
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        write(self.shm_fd, pack('b', 0))
+        lseek(self.shm_fd, self.offset + 1, SEEK_SET)
+        write(self.shm_fd, pack('b', 0))
 
     @property
     def is_reporter_running(self):
@@ -243,23 +243,23 @@ class ReporterState(ShmWrapper):
 
     @staticmethod
     def turn_on_reporter(indyshm):
-        lseek(indyshm.shm.fd, indyshm.offset, SEEK_SET)
-        return write(indyshm.shm.fd, pack('b', 1))
+        lseek(indyshm.shm_fd, indyshm.offset, SEEK_SET)
+        return write(indyshm.shm_fd, pack('b', 1))
 
     @staticmethod
     def turn_on_server(indyshm):
-        lseek(indyshm.shm.fd, indyshm.offset + 1, SEEK_SET)
-        return write(indyshm.shm.fd, pack('b', 1))
+        lseek(indyshm.shm_fd, indyshm.offset + 1, SEEK_SET)
+        return write(indyshm.shm_fd, pack('b', 1))
 
     @staticmethod
     def turn_off_reporter(indyshm):
-        lseek(indyshm.shm.fd, indyshm.offset, SEEK_SET)
-        return write(indyshm.shm.fd, pack('b', 0))
+        lseek(indyshm.shm_fd, indyshm.offset, SEEK_SET)
+        return write(indyshm.shm_fd, pack('b', 0))
 
     @staticmethod
     def turn_off_server(indyshm):
-        lseek(indyshm.shm.fd, indyshm.offset + 1, SEEK_SET)
-        return write(indyshm.shm.fd, pack('b', 0))
+        lseek(indyshm.shm_fd, indyshm.offset + 1, SEEK_SET)
+        return write(indyshm.shm_fd, pack('b', 0))
 
     @staticmethod
     def get_all_reporter_state(indyshm):

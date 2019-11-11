@@ -53,12 +53,12 @@ class ShmWrapper(object):
         # print("Shared Memory:", name, self.offset, size)
 
     def read(self):
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        return read(self.shm.fd, self.size)
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        return read(self.shm_fd, self.size)
 
     def write(self):
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        return write(self.shm.fd, self.size)
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        return write(self.shm_fd, self.size)
 
 
 class ShmSecondWrapper(object):
@@ -67,19 +67,19 @@ class ShmSecondWrapper(object):
         self.offset = offset + INDY_SHM_MGR_OFFSET
         self.size = size + ROBOT_SN_LENGHT_MAX
         self.fmt = 'bbbbb%ss' % ROBOT_SN_LENGHT_MAX
-        lseek(self.shm.fd, self.offset, SEEK_SET)
+        lseek(self.shm_fd, self.offset, SEEK_SET)
 
         self.write(0, 0, 0, 0, 0, 'INIT12345678'.encode('utf-8'))
 
     def read(self):
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        return read(self.shm.fd, self.size)
-        # return unpack(self.fmt, read(self.shm.fd, self.size))
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        return read(self.shm_fd, self.size)
+        # return unpack(self.fmt, read(self.shm_fd, self.size))
 
     def write(self, b1, b2, b3, b4, b5, s):
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        # return write(self.shm.fd, self.size)
-        write(self.shm.fd, pack(self.fmt, b1, b2, b3, b4, b5, s))
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        # return write(self.shm_fd, self.size)
+        write(self.shm_fd, pack(self.fmt, b1, b2, b3, b4, b5, s))
 
 
 class MessageCounter(ShmWrapper):
@@ -89,13 +89,13 @@ class MessageCounter(ShmWrapper):
 
     def inc(self):
         cnt = self.counter + 1
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        write(self.shm.fd, pack('I', cnt))
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        write(self.shm_fd, pack('I', cnt))
         # print('counter increased', cnt, self.counter)
 
     def set(self, cnt):
-        lseek(self.shm.fd, self.offset, SEEK_SET)
-        write(self.shm.fd, pack('I', cnt))
+        lseek(self.shm_fd, self.offset, SEEK_SET)
+        write(self.shm_fd, pack('I', cnt))
 
 
 
