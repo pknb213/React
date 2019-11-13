@@ -374,8 +374,6 @@ if __name__ == '__main__':
         f2 = check_shm()
         sn = check_robot_info()
         shm.write_serial_number(shm, sn)
-        #todo : Temp sn
-        sn = 'D1234'
         ROBOT_SERIAL_NUMBER = sn
         print("Robot SerialNumber : ", shm.get_serial_number_value(shm))
         if f1 is True and f2 is True and sn:

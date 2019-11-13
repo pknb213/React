@@ -20,6 +20,16 @@ class Login extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+        this.enterkey();
+    }
+
+    enterkey() {
+        if(window.event.keyCode === 13){
+            this.refs.form.submit();
+        }
+    };
+
     handleEmailChange = (e) => {
         this.setState({
             email: e.target.value
@@ -51,7 +61,7 @@ class Login extends React.Component {
 
     render() {
         return (
-            <form id='form' onSubmit={this.handleSubmit}>
+            <form id='form' onSubmit={this.handleSubmit} ref='form'>
                 <div className="EmailBox">
                     <Img id="EmailIcon" src={email}/>
                     <Input type="text" name="EmailText" text="E-mail" value={this.state.email} onChange={this.handleEmailChange}/>
