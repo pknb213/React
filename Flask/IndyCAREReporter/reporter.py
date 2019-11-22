@@ -11,6 +11,7 @@ from reporterShm_conf import *
 # ROBOT_SERIAL_NUMBER = 'GLOBALTEST12'
 ROBOT_SERIAL_NUMBER = 'D1234'
 
+
 def show_reporter_info():
     print("\n*********** Reporter Information *************")
     print("> OS Basic Path : %s" % os.getcwd())
@@ -368,7 +369,6 @@ def clip_uploader(sn, shm):
 if __name__ == '__main__':
     set_start_method('spawn', True)
     shm = ReporterProcessState(REPORTER_PROCESS_SHM, REPORTER_PROCESS_STATE_ADDR, REPORTER_PROCESS_SHM_SIZE)
-    #shm = ReporterProcessState2(REPORTER_PROCESS_SHM, REPORTER_PROCESS_STATE_ADDR, REPORTER_PROCESS_SHM_SIZE)
     while True:
         f1 = check_task_manager()
         f2 = check_shm()
@@ -377,7 +377,7 @@ if __name__ == '__main__':
         ROBOT_SERIAL_NUMBER = sn
         print("Robot SerialNumber : ", shm.get_serial_number_value(shm))
         if f1 is True and f2 is True and sn:
-        # if f2 is True and sn:
+        # if f2 is True and sn:  # Step 연결안했을때
             s = requests.Session()
             s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
             time.sleep(0.5)

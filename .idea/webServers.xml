@@ -18,6 +18,14 @@
           <option name="port" value="22" />
         </fileTransfer>
       </webServer>
+      <webServer id="8164ea2c-da53-4f65-8610-919acc678056" name="112" url="http://192.168.0.112">
+        <fileTransfer host="192.168.0.112" port="22" rootFolder="/home/user/release/IndyCAREReporter" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

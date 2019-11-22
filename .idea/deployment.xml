@@ -2,6 +2,13 @@
 <project version="4">
   <component name="PublishConfigData" serverName="125">
     <serverData>
+      <paths name="112">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$/Flask/IndyCAREReporter" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="125">
         <serverdata>
           <mappings>
