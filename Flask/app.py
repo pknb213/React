@@ -1,3 +1,5 @@
+import sys, os
+sys.path.append(os.getcwd() + os.path.sep + 'python')
 from utils import *
 from apis import *
 

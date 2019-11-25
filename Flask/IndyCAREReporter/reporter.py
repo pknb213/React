@@ -7,7 +7,7 @@ from event_conf import EventFiles
 from indyShm_conf import *
 from reporterShm_conf import *
 
-
+SIMULATION = True
 # ROBOT_SERIAL_NUMBER = 'GLOBALTEST12'
 ROBOT_SERIAL_NUMBER = 'D1234'
 
@@ -17,6 +17,7 @@ def show_reporter_info():
     print("> OS Basic Path : %s" % os.getcwd())
 
 
+# Test Process : Default is False
 def test_process(sn='D1234'):
     # todo : Test
     s = requests.Session()
@@ -62,18 +63,23 @@ def test_process(sn='D1234'):
 
 def task_server(q, sn):
     print("Task Server Start")
-    mq = MessageQueue(POSIX_MSG_QUEUE, flags=O_CREAT, mode=0o666, max_messages=100, max_message_size=1024)
+    # 0o666
+    mq = MessageQueue(POSIX_MSG_QUEUE, flags=O_CREAT, mode=0o600, max_messages=100, max_message_size=1024)
     msg_counter = MessageCounter(MSG_COUNTER_SHM, 0, 4)
     while mq.current_messages > 0:
-        mq.receive()
+        try:
+            mq.receive()
+        except KeyboardInterrupt:
+            print("> Task Server Signal Exit")
+            sys.exit()
 
     while True:
         t0 = datetime.datetime.now()
         try:
             msg_counter.inc()
             data, pri = mq.receive()
-        except Exception as e:
-            print("> Signal Exit")
+        except KeyboardInterrupt:
+            print("> Task Server Signal Exit")
             while mq.current_messages > 0:
                 print('> flush')
                 mq.receive()
@@ -90,8 +96,8 @@ def task_server(q, sn):
 
         try:
             q.put_nowait((mtype, msg, mdata))
-        except SystemExit as e:
-            print("> System Exit> ", e)
+        except KeyboardInterrupt:
+            print("> Task Server Signal Exit")
             sys.exit()
         except Exception as e:
             print("> Exception Queue :", e)
@@ -169,6 +175,10 @@ def reporter(q, sn, shm):
                 s.post(URL + '/event/' + sn, json={"time": date, "code": code, "log": EventFiles.latest_log},
                        timeout=30)
             time.sleep(4)
+        except KeyboardInterrupt:
+            print("> Reporter Signal Exit")
+            s.close()
+            sys.exit()
         except requests.exceptions.ConnectionError as e:
             t1 = t0 = datetime.datetime.now()
             print("Connect Error !!", e)
@@ -200,11 +210,6 @@ def reporter(q, sn, shm):
             s.close()
             time.sleep(2)
             continue
-        except:
-            print("Ecception Test")
-            s.close()
-            time.sleep(2)
-            continue
 
 
 def event_log_uploader(sn, shm):
@@ -214,13 +219,13 @@ def event_log_uploader(sn, shm):
         # s.post(URL + '/login', {'id': sn, 'pwd': sn})
         try:
             messages = SSEClient(URL + '/stream?channel=%s_event_log' % sn)
-        except SystemExit as e:
-            print("System Exception : ", e)
+        except KeyboardInterrupt:
+            print("> Event Log Signal Exit")
             s.close()
             sys.exit()
         except requests.exceptions.ConnectionError as e:
             t1 = t0 = datetime.datetime.now()
-            print("SSE Connect Error !!", e)
+            print(">>SSE Connect Error !!", e)
             while True:
                 print("<Event> Reconnecting . . . ", t1.timestamp() - t0.timestamp())
                 try:
@@ -244,12 +249,7 @@ def event_log_uploader(sn, shm):
             time.sleep(1)
             continue
         except Exception as e:
-            print("SSE Exception e : ", e)
-            s.close()
-            time.sleep(1)
-            continue
-        except:
-            print("SSE Exception")
+            print(">>SSE Exception e : ", e)
             s.close()
             time.sleep(1)
             continue
@@ -298,7 +298,8 @@ def clip_uploader(sn, shm):
         # s.post(URL + '/login', {'id': sn, 'pwd': sn})
         try:
             messages = SSEClient(URL + '/stream?channel=%s_clip' % sn)
-        except SystemExit:
+        except KeyboardInterrupt:
+            print("> Clip Uploader Signal Exit")
             s.close()
             sys.exit()
         except requests.exceptions.ConnectionError as e:
@@ -369,21 +370,27 @@ def clip_uploader(sn, shm):
 if __name__ == '__main__':
     set_start_method('spawn', True)
     shm = ReporterProcessState(REPORTER_PROCESS_SHM, REPORTER_PROCESS_STATE_ADDR, REPORTER_PROCESS_SHM_SIZE)
-    while True:
-        f1 = check_task_manager()
-        f2 = check_shm()
-        sn = check_robot_info()
-        shm.write_serial_number(shm, sn)
-        ROBOT_SERIAL_NUMBER = sn
-        print("Robot SerialNumber : ", shm.get_serial_number_value(shm))
-        if f1 is True and f2 is True and sn:
-        # if f2 is True and sn:  # Step 연결안했을때
-            s = requests.Session()
-            s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
-            time.sleep(0.5)
-            s.close()
-            time.sleep(2.5)
-            break
+    if SIMULATION:
+        s = requests.Session()
+        s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
+        time.sleep(0.5)
+        s.close()
+        time.sleep(1.5)
+    else:
+        while True:
+            f1 = check_task_manager()
+            f2 = check_shm()
+            sn = check_robot_info()
+            shm.write_serial_number(shm, sn)
+            ROBOT_SERIAL_NUMBER = sn
+            print("Robot SerialNumber : ", shm.get_serial_number_value(shm))
+            if f1 is True and f2 is True and sn:
+                s = requests.Session()
+                s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
+                time.sleep(0.5)
+                s.close()
+                time.sleep(2.5)
+                break
 
     show_reporter_info()
     q = Queue()
