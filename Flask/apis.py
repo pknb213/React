@@ -14,10 +14,10 @@ def home():
         if user.permission == 'user':
             return jsonify('ok')
         else:
-            return jsonify("Fuck")
+            return jsonify("Fail")
 
     if not current_user.is_authenticated:
-        return jsonify("Fuck")
+        return jsonify("Fail")
 
 
 # For Robot List Page
@@ -79,11 +79,17 @@ def robot_state(sn):
     # Todo : 캐시에 저장된 로봇 상태값을 가져온다
     # Todo : 지금은 Static 값으로 테스트 한다.
     # dic = cache.hget(sn, 'state').decode('utf8')
-
-    dic = {'busy': random.randrange(0, 2), 'ready': random.randrange(0, 2), 'collision': random.randrange(0, 2),
-           'error': random.randrange(0, 2), 'programState': random.randrange(0, 2), 'emergency': random.randrange(0, 2),
-           'is_reporter_connected': random.randrange(0, 2), 'is_server_connected': random.randrange(0, 2)}
-    cache.hset(sn, 'state', str(dic))
+    #
+    # dic = {'busy': random.randrange(0, 2), 'ready': random.randrange(0, 2), 'collision': random.randrange(0, 2),
+    #        'error': random.randrange(0, 2), 'program_state': random.randrange(0, 2), 'emergency': random.randrange(0, 2),
+    #        'is_reporter_running': random.randrange(0, 2), 'is_server_connected': random.randrange(0, 2)}
+    # cache.hset(sn, 'state', str(dic))
+    if cache.hget(sn, 'state') is not None:
+        _state = json.loads(cache.hget(sn, 'state').decode())
+        dic = _state
+        # print(_state)
+    else:
+        dic = {}
     return jsonify(dic)
 
 
@@ -137,6 +143,61 @@ def request_event(filename, sn):
 # For Robot Detail Page - Video
 @app.route("/clip/<sn>")
 def cam(sn):
+    res = 'ok'
+    # res = 'ready'
+    # res = '1'
+
+    # sn (clip) set -1 :  -1은 file이 없을 떄 (None)
+    # file_name = 'Chronograf.mp4'
+    # clip_path = os.path.join(os.getcwd(), 'static', file_name)
+    if cache.hget(sn, 'clipname') is None:
+        print("Clip is None")
+    else:
+        path = os.path.join(os.getcwd(), 'clips', cache.hget(sn, 'clipname').decode('utf-8'))
+        if os.path.exists(path):
+            try:
+                os.unlink(path)
+            except Exception as e:
+                print("다른 프로세스가 파일을 사용 중입니다.")
+
+    print("File : ", request.files)
+    if request.files and request.method == "POST":
+        if request.files['file'].name == 'No Camera':
+            cache.hset(sn, 'clip', -1)
+            # return Response("Fail", status=404)
+            return 'Fail'
+    else:
+        if not cache.exists('clipname', 'clip'):
+            cache.hset(sn, 'clipname', 'No Clip')
+            print("hset : ", sn, 'clipname', 'No Clip')
+            time.sleep(0.02)  # for scheduling
+            cache.hset(sn, 'clip', -1)
+            print("hset : ", sn, 'clip', -1)
+            return 'ok'
+
+    file_name = request.files['file'].filename
+    clip_path = os.path.join(os.getcwd(), 'clips', request.files['file'].filename)
+    # Clip Save
+    request.files['file'].save(clip_path)
+    time.sleep(0.1)
+    print("< Check > Clip Path : ", clip_path)
+    # added file.save
+    cache.hset(sn, 'clipname', file_name)
+    print("hset : ", sn, 'clipname', file_name)
+    time.sleep(0.02)  # for scheduling
+    cache.hset(sn, 'clip', datetime.now().timestamp())
+    print("hset : ", sn, 'clip', datetime.now().timestamp())
+
+    time.sleep(10)
+
+    clip = cache.hget(sn, 'clip')
+    if clip is None: clip = 0
+    if float(clip) < 0:
+        cache.hset(sn, 'clip', 0)
+        print("No Camera : sn (clip) set 0")
+    else:
+        print("Check OK")
+
     return 'ok'
 
 
@@ -149,13 +210,35 @@ def get_poster():
 # For Robot Detail Page - Video
 @app.route("/get/clip/<sn>")
 def get_clip(sn):
-    print(os.path.join(os.getcwd(), 'upload'))
+    # print(os.path.join(os.getcwd(), 'upload'))
     path = os.path.join(os.getcwd(), 'upload')
-    res = send_from_directory(path, 'Chronograf.mp4')
+    # res = send_from_directory(path, 'Chronograf.mp4')
+    # res = send_from_directory(path, b'video-11-26-2019-19-22-36.mp4'.decode())
+    # return res
 
     # Todo : Clip 요청하는 코드 작성 필요
+    t0 = t1 = datetime.now()
+    print(cache.hgetall(sn))
+    if cache.hget(sn, 'clip') is None or float(cache.hget(sn, 'clip')) < 0:
+        cache.hset(sn, 'clip', 0)
+        load_sse_command(sn, '_clip')
 
-    return res
+        while t1.timestamp() - t0.timestamp() <= 15:  # app.config['ROBOT_DATA_WAIT_TIMEOUT']:
+            if float(cache.hget(sn, 'clip')) > 0:
+                print(cache.hget(sn, 'clip'), cache.hget(sn, 'clip_name').decode())
+                res = send_from_directory(path, cache.hget(sn, 'clip_name').decode('utf-8'),
+                                          as_attachment=True,
+                                          attachment_filename=cache.hget(sn, 'clip_name').decode('utf-8'))
+                cache.hset(sn, 'clip_ts', datetime.now().timestamp())
+                return res
+            elif float(cache.hget(sn, 'clip')) < 0:
+                return Response("Fail", status=404)
+            t1 = datetime.now()
+            print("waiting. . ", t1.timestamp() - t0.timestamp())
+            time.sleep(2)
+        cache.hset(sn, 'clip', -1)
+
+    return Response('Fail', status=404)
 
 
 # For Robot Detail Page - Chart
@@ -289,23 +372,77 @@ def get_chart_data(sn, axis, key, period):
 
 @app.route("/reporter/robot/info", methods=["POST"])
 def post_sn_from_reporter():
-    return 1
+    if 'sn' not in request.json:
+        _sn = ''
+    else:
+        _sn = request.json['sn']
+    if 'company' not in request.json:
+        _company = ''
+    else:
+        _company = request.json['company']
+    if 'site' not in request.json:
+        _site = ''
+    else:
+        _site = request.json['site']
+    if 'header' not in request.json:
+        _header = ''
+    else:
+        _header = request.json['header']
+
+    sql = '''INSERT INTO robots(sn, company, site, header) VALUES (\"%s\", \"%s\", \"%s\", \"%s\") ON DUPLICATE KEY UPDATE sn = \"%s\"
+    ''' % (_sn, _company, _site, _header, _sn)
+    if MySQL.insert(sql):
+        print("Welcome New S/N Indy")
+    else:
+        print("Already, S/N Indy")
+    return Response('ok')
 
 
 @app.route("/reporter/robot/state/<sn>", methods=["POST"])
 def post_robot_state(sn):
     # todo : State Dic
-    print("Reporter State :", request.json)
-    sql = "INSERT INTO robot_states(serial_number, state) VALUES (\"%s\", \"%s\") " \
-          % (sn, request.json)
-    MySQL.insert(sql)
+    _state = json.loads(request.json)
+    _ts = datetime.now().timestamp()
+    print("Reporter State :", _state)
+    cache.hset(sn, 'state', json.dumps(_state))
+    if cache.hget(sn, 'ts') is None or _ts - float(cache.hget(sn, 'ts')) > 60:
+        sql = '''INSERT INTO robot_states(serial_number, state) VALUES (\"%s\", \"%s\")
+        ''' % (sn, _state)
+        MySQL.insert(sql)
+        cache.hset(sn, 'ts', _ts)
     return Response("ok")
 
 
 @app.route("/reporter/robot/event/<file>/<sn>", methods=["POST"])
 def post_robot_event(file, sn):
     # todo : Event Down
-    return 1
+    if file is None:
+        print("No Event File")
+        return Response('ok')
+    log_save_path = os.path.join(app.config['EVENT_LOG_PATH'])
+    file.save(log_save_path)
+    sql = '''INSERT INTO events (json, sn, file) VALUES ('test', \"%s\", \"%s\")
+    ''' % (sn, 'Test')
+    MySQL.insert(sql)
+    return Response('ok')
+
+
+@app.route("/reporter/robot/clip/<sn>", methods=["POST"])
+def post_robot_clip(sn):
+    if 'file' in request.files:
+        if request.files['file'].name == 'No Camera':
+            cache.hset(sn, 'clip', -1)
+        else:
+            file_name = request.files['file'].filename
+            file = request.files['file']
+            file.save(os.path.join(app.config['CLIP_UPLOAD_PATH'], file_name))
+            time.sleep(0.1)
+            cache.hset(sn, 'clip', datetime.now().timestamp())
+            time.sleep(0.1)
+            cache.hset(sn, 'clip_name', file_name)
+        return Response('ok')
+    else:
+        return Response('ㅗ', status=404)
 
 
 @app.route("/reporter/chart/data/<sn>", methods=["POST"])
@@ -362,6 +499,3 @@ def test():
     print(current_user.is_authenticated)
     print(current_user.id)
     return jsonify("Fuck")
-
-
-

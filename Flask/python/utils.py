@@ -17,6 +17,8 @@ app.secret_key = "super secret key"
 sess = Session()
 app.config.update(
     DEBUG=False,
+    EVENT_LOG_PATH=os.getcwd() + os.path.sep + 'upload',
+    CLIP_UPLOAD_PATH=os.getcwd() + os.path.sep + 'upload',
     REDIS_URL="redis://%s" % REDIS_URL,
     ROBOT_DATA_WAIT_TIMEOUT=30,
     #SCREATE_KEY='super secret key',

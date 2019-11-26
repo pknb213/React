@@ -66,6 +66,7 @@ class MySQL:
                     sql = __str
                     cursor.execute(sql)
                 db.commit()
+                return False if cursor.lastrowid == 0 else True
             except Exception as e:
                 print("Insert Error", e)
                 raise e

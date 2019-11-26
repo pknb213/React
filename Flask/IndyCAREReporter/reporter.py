@@ -1,13 +1,16 @@
 import sys, os
 from multiprocessing import Process
+
 sys.path.append(os.getcwd() + os.path.sep + 'reporter_conf')
+from config import URL, SITE, COMPANY, HEADER
 from http_conf import URL, SSEClient
-from util_conf import requests, Process, Queue, set_start_method, random, datetime, time, MessageQueue, O_CREAT, set_proc_name, check_robot_info, check_shm, check_task_manager, json
+from util_conf import requests, Process, Queue, set_start_method, random, datetime, time, MessageQueue, O_CREAT, \
+    set_proc_name, check_robot_info, check_shm, check_task_manager, json
 from event_conf import EventFiles
 from indyShm_conf import *
 from reporterShm_conf import *
 
-SIMULATION = True
+SIMULATION = False
 # ROBOT_SERIAL_NUMBER = 'GLOBALTEST12'
 ROBOT_SERIAL_NUMBER = 'D1234'
 
@@ -64,7 +67,7 @@ def test_process(sn='D1234'):
 def task_server(q, sn):
     print("Task Server Start")
     # 0o666
-    mq = MessageQueue(POSIX_MSG_QUEUE, flags=O_CREAT, mode=0o600, max_messages=100, max_message_size=1024)
+    mq = MessageQueue(POSIX_MSG_QUEUE, flags=O_CREAT, mode=0o666, max_messages=100, max_message_size=1024)
     msg_counter = MessageCounter(MSG_COUNTER_SHM, 0, 4)
     while mq.current_messages > 0:
         try:
@@ -91,8 +94,7 @@ def task_server(q, sn):
         # print("type : ", type(data), " len : ", len, " pri : ", pri)
         msg = data[8:8 + data[8:].index(0)].decode('utf-8')  # 8부터 처음 0 나올 때 까지
         mdata = data[136:136 + data[136:].index(0)].decode('utf-8')  # 8 + 128 부터 0 나올 때 까지
-        print("> mtype [%s]" % mtype, ", msg [%s]" % msg, ", mdata [%s]" % mdata,
-              ", msg counter [%s]" % msg_counter.counter)
+        print("> mtype [%s]" % mtype, ", msg [%s]" % msg, ", mdata [%s]" % mdata, ", msg counter [%s]" % msg_counter.counter)
 
         try:
             q.put_nowait((mtype, msg, mdata))
@@ -161,7 +163,7 @@ def reporter(q, sn, shm):
             # state_idc.update(info_shm.get_all_robot_info_data(info_shm))
             state_idc.update(reporter_shm.get_all_reporter_state(reporter_shm))
             # state_idc.update(sys_shm.get_all_sys_state(sys_shm))
-            s.post(URL + '/report/robot/state/' + sn, json=state_idc, timeout=10)
+            s.post(URL + '/reporter/robot/state/' + sn, json=json.dumps(state_idc), timeout=10)
 
             print("\nReporter : ", t0, shm.get_all_reporter_state(shm))
             print(state_idc, "\n")
@@ -225,7 +227,7 @@ def event_log_uploader(sn, shm):
             sys.exit()
         except requests.exceptions.ConnectionError as e:
             t1 = t0 = datetime.datetime.now()
-            print(">>SSE Connect Error !!", e)
+            print("> SSE Connect Error !!", e)
             while True:
                 print("<Event> Reconnecting . . . ", t1.timestamp() - t0.timestamp())
                 try:
@@ -249,7 +251,7 @@ def event_log_uploader(sn, shm):
             time.sleep(1)
             continue
         except Exception as e:
-            print(">>SSE Exception e : ", e)
+            print("> SSE Exception e : ", e)
             s.close()
             time.sleep(1)
             continue
@@ -261,7 +263,8 @@ def event_log_uploader(sn, shm):
                     with open(EventFiles.get_directory_path() + data['filename'], 'rb') as f:
                         print(f)
                         try:
-                            res = s.post(URL + '/file/event/%s/%s' % (data['filename'], data['sn']), files={'file': f})
+                            res = s.post(URL + '/reporter/robot/event/%s/%s'
+                                         % (data['filename'], data['sn']), files={'file': f})
                         except requests.exceptions.ConnectionError:
                             t1 = t0 = datetime.datetime.now()
                             while True:
@@ -333,10 +336,10 @@ def clip_uploader(sn, shm):
                 if EventFiles.get_latest_clip():
                     with open(EventFiles.get_latest_clip(), 'rb') as f:
                         print(f)
-                        res = s.post(URL + '/clip/' + sn + '/check', files={'file': f})
+                        res = s.post(URL + '/reporter/robot/clip/' + sn, files={'file': f})
                 else:
                     print("No Clip")
-                    res = s.post(URL + '/clip/' + sn + '/check', files={'file': ('No Camera', '')})
+                    res = s.post(URL + '/reporter/robot/clip/' + sn, files={'file': ('No Camera', '')})
         except requests.exceptions.ConnectionError as e:
             t1 = t0 = datetime.datetime.now()
             print("Connect Error !!", e)
@@ -345,9 +348,9 @@ def clip_uploader(sn, shm):
                 try:
                     if EventFiles.get_latest_clip():
                         with open(EventFiles.get_latest_clip(), 'rb') as f:
-                            res = s.post(URL + '/clip/' + sn + '/check', files={'file': f})
+                            res = s.post(URL + '/reporter/robot/clip/' + sn, files={'file': f})
                     else:
-                        res = s.post(URL + '/clip/' + sn + '/check', files={'file': ('No Camera', '')})
+                        res = s.post(URL + '/reporter/robot/clip/' + sn, files={'file': ('No Camera', '')})
                     if res.status_code == 200:
                         print("<Clip> Reconnected !!")
                         break
@@ -370,9 +373,13 @@ def clip_uploader(sn, shm):
 if __name__ == '__main__':
     set_start_method('spawn', True)
     shm = ReporterProcessState(REPORTER_PROCESS_SHM, REPORTER_PROCESS_STATE_ADDR, REPORTER_PROCESS_SHM_SIZE)
+    print(" >> URL : %s, Company : %s, Site : %s, Header : %s" % (URL, COMPANY, SITE, HEADER))
     if SIMULATION:
         s = requests.Session()
-        s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
+        try:
+            s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER, }, timeout=20)
+        except Exception as e:
+            print("> Post Error. Please Check the URL & Server : ", e)
         time.sleep(0.5)
         s.close()
         time.sleep(1.5)
@@ -386,16 +393,19 @@ if __name__ == '__main__':
             print("Robot SerialNumber : ", shm.get_serial_number_value(shm))
             if f1 is True and f2 is True and sn:
                 s = requests.Session()
-                s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
-                time.sleep(0.5)
-                s.close()
-                time.sleep(2.5)
+                try:
+                    s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
+                    time.sleep(0.5)
+                    s.close()
+                    time.sleep(1.5)
+                except Exception as e:
+                    print("> Post Error. Please Check the URL & Server : ", e)
                 break
 
     show_reporter_info()
     q = Queue()
-    p1 = Process(target=event_log_uploader, args=(ROBOT_SERIAL_NUMBER, shm, ))
-    p2 = Process(target=clip_uploader, args=(ROBOT_SERIAL_NUMBER, shm, ))
+    p1 = Process(target=event_log_uploader, args=(ROBOT_SERIAL_NUMBER, shm,))
+    p2 = Process(target=clip_uploader, args=(ROBOT_SERIAL_NUMBER, shm,))
     p3 = Process(target=task_server, args=(q, ROBOT_SERIAL_NUMBER,))
     # p4 = Process(target=test_process, args=(ROBOT_SERIAL_NUMBER,))
     p1.start()

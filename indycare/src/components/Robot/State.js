@@ -44,11 +44,11 @@ function StateDiv(props) {
                     imgElement = <ImgOnly src={errorIcon} text={'ERROR'}/>;
                 else if (state[key] === 2)
                     imgElement = <ImgOnly src={statePauseIcon} text={'PROGRAM STATE'}/>;
-                else if (key === 'programState')
+                else if (key === 'program_state')
                     imgElement = <ImgOnly src={statePlayIcon} text={'PROGRAM STATE'}/>;
                 else if (key === 'emergency')
                     imgElement = <ImgOnly src={emergencyIcon} text={'EMERGENCY'}/>;
-                else if (key === 'is_reporter_connected')
+                else if (key === 'is_reporter_running')
                     imgElement = <ImgOnly src={reporterConnectIcon} text={'ROBOT CONNECTED'}/>;
                 else if (key === 'is_server_connected')
                     imgElement = <ImgOnly src={serverConnectIcon} text={'SERVER CONNECTED'}/>;
@@ -63,11 +63,11 @@ function StateDiv(props) {
                     imgElement = <ImgOnly src={uncollisionIcon} text={'COLLISION'}/>;
                 else if (key === 'error')
                     imgElement = <ImgOnly src={unerrorIcon} text={'ERROR'}/>;
-                else if (key === 'programState')
+                else if (key === 'program_state')
                     imgElement = <ImgOnly src={unstateStopIcon} text={'PROGRAM STATE'}/>;
                 else if (key === 'emergency')
                     imgElement = <ImgOnly src={unemergencyIcon} text={'EMERGENCY'}/>;
-                else if (key === 'is_reporter_connected')
+                else if (key === 'is_reporter_running')
                     imgElement = <ImgOnly src={reporterNotConnectIcon} text={'ROBOT CONNECTED'}/>;
                 else if (key === 'is_server_connected')
                     imgElement = <ImgOnly src={serverNotConnectIcon} text={'SERVER CONNECTED'}/>;

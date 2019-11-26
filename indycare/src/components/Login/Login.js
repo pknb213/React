@@ -18,14 +18,14 @@ class Login extends React.Component {
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handlePwdChange = this.handlePwdChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleKeyPress = this.handleKeyPress.bind(this);
     }
 
     componentDidMount() {
-        this.enterkey();
     }
 
-    enterkey() {
-        if(window.event.keyCode === 13){
+    handleKeyPress(e) {
+        if(e.keyCode === 'Enter'){
             this.refs.form.submit();
         }
     };
@@ -70,7 +70,7 @@ class Login extends React.Component {
                     <Img id="PwdIcon" src={pwd}/>
                     <Input type="password" name="PwdText" text="Password" value={this.state.pwd} onChange={this.handlePwdChange}/>
                 </div>
-                <button className="LoginBtn" type="submit">
+                <button className="LoginBtn" type="submit" onKeyPress={this.handleKeyPress}>
                     <PText id="Submit" text="Login"/>
                 </button>
                 <div className="Footer">
