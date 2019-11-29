@@ -21,7 +21,8 @@ export default class LineGraph extends React.PureComponent {
         let myChartRef = this.chartRef.current.getContext("2d");
         myChartRef.canvas.width = '1200px';
         myChartRef.canvas.height = '300px';
-        const {data} = this.props;
+        let {data} = this.props;
+        if (data === null) data = new Array(5);
 
         if (typeof myLineChart !== "undefined") myLineChart.destroy();
 
