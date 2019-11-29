@@ -11,7 +11,7 @@ import {Tab} from "../components/Robot/Tab";
 const DetailView = ({match}) => {
     return (
         <div id="wrapper">
-            <h2>{match.params.sn}</h2>
+            {/*<h2>{match.params.sn}</h2>*/}
             <SideNavigator/>
             <div className="contents_wrap clear">
                 <div className="header_wrap">
