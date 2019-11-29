@@ -1,3 +1,5 @@
+from os import abort
+
 from utils import *
 from login import User, login_user, current_user, LoginRequired
 
@@ -143,62 +145,42 @@ def request_event(filename, sn):
 # For Robot Detail Page - Video
 @app.route("/clip/<sn>")
 def cam(sn):
-    res = 'ok'
-    # res = 'ready'
-    # res = '1'
+    # print(os.path.join(os.getcwd(), 'upload'))
+    # path = os.path.join(os.getcwd(), 'upload')
+    # res = send_from_directory(path, 'Chronograf.mp4')
+    # res = send_from_directory(path, b'video-11-26-2019-19-22-36.mp4'.decode())
+    # return res
 
-    # sn (clip) set -1 :  -1은 file이 없을 떄 (None)
-    # file_name = 'Chronograf.mp4'
-    # clip_path = os.path.join(os.getcwd(), 'static', file_name)
-    if cache.hget(sn, 'clipname') is None:
-        print("Clip is None")
-    else:
-        path = os.path.join(os.getcwd(), 'clips', cache.hget(sn, 'clipname').decode('utf-8'))
-        if os.path.exists(path):
-            try:
-                os.unlink(path)
-            except Exception as e:
-                print("다른 프로세스가 파일을 사용 중입니다.")
-
-    print("File : ", request.files)
-    if request.files and request.method == "POST":
-        if request.files['file'].name == 'No Camera':
-            cache.hset(sn, 'clip', -1)
-            # return Response("Fail", status=404)
-            return 'Fail'
-    else:
-        if not cache.exists('clipname', 'clip'):
-            cache.hset(sn, 'clipname', 'No Clip')
-            print("hset : ", sn, 'clipname', 'No Clip')
-            time.sleep(0.02)  # for scheduling
-            cache.hset(sn, 'clip', -1)
-            print("hset : ", sn, 'clip', -1)
-            return 'ok'
-
-    file_name = request.files['file'].filename
-    clip_path = os.path.join(os.getcwd(), 'clips', request.files['file'].filename)
-    # Clip Save
-    request.files['file'].save(clip_path)
-    time.sleep(0.1)
-    print("< Check > Clip Path : ", clip_path)
-    # added file.save
-    cache.hset(sn, 'clipname', file_name)
-    print("hset : ", sn, 'clipname', file_name)
-    time.sleep(0.02)  # for scheduling
-    cache.hset(sn, 'clip', datetime.now().timestamp())
-    print("hset : ", sn, 'clip', datetime.now().timestamp())
-
-    time.sleep(10)
-
-    clip = cache.hget(sn, 'clip')
-    if clip is None: clip = 0
-    if float(clip) < 0:
+    # Todo : Clip 요청하는 코드 작성 필요
+    t0 = t1 = datetime.now()
+    print("처음임" if cache.hget(sn, 'clip') is None else "Clip 값 : ", cache.hget(sn, 'clip'))
+    if cache.hget(sn, 'clip') is None or float(cache.hget(sn, 'clip')) < 0:
         cache.hset(sn, 'clip', 0)
-        print("No Camera : sn (clip) set 0")
-    else:
-        print("Check OK")
+        print("Clip 요청을 하옵니다")
+        load_sse_command(sn, '_clip')
+        cache.hset(sn, 'clip_ts', datetime.now().timestamp())
 
-    return 'ok'
+    print('영상 ts 없뜸' if cache.hget(sn, 'clip_ts') is None else 'now - clip_ts : %f' % (
+                t0.timestamp() - float(cache.hget(sn, 'clip_ts'))))
+    while t1.timestamp() - t0.timestamp() <= app.config['ROBOT_DATA_WAIT_TIMEOUT']:
+        if cache.hget(sn, 'clip_ts') is not None \
+                and datetime.now().timestamp() - float(cache.hget(sn, 'clip_ts')) > 60:
+            print("오래됬으니 다시 요청하세요")
+            cache.hset(sn, 'clip', -1)
+            cache.hdel(sn, 'clip_ts')
+            return 'fail'
+        if float(cache.hget(sn, 'clip')) > 0:
+            print("영상 받음", cache.hget(sn, 'clip'), cache.hget(sn, 'clip_name').decode())
+            return 'ok'
+        elif float(cache.hget(sn, 'clip')) < 0:
+            return 'fail'
+        t1 = datetime.now()
+        print("waiting. . ", t1.timestamp() - t0.timestamp())
+        time.sleep(2)
+
+    if cache.hget(sn, 'clip') is 0:
+        cache.hset(sn, 'clip', -1)
+    return 'fail'
 
 
 # For Robot Detail Page - Video
@@ -210,35 +192,12 @@ def get_poster():
 # For Robot Detail Page - Video
 @app.route("/get/clip/<sn>")
 def get_clip(sn):
-    # print(os.path.join(os.getcwd(), 'upload'))
+    print("GET CLIP")
     path = os.path.join(os.getcwd(), 'upload')
-    # res = send_from_directory(path, 'Chronograf.mp4')
-    # res = send_from_directory(path, b'video-11-26-2019-19-22-36.mp4'.decode())
-    # return res
-
-    # Todo : Clip 요청하는 코드 작성 필요
-    t0 = t1 = datetime.now()
-    print(cache.hgetall(sn))
-    if cache.hget(sn, 'clip') is None or float(cache.hget(sn, 'clip')) < 0:
-        cache.hset(sn, 'clip', 0)
-        load_sse_command(sn, '_clip')
-
-        while t1.timestamp() - t0.timestamp() <= 15:  # app.config['ROBOT_DATA_WAIT_TIMEOUT']:
-            if float(cache.hget(sn, 'clip')) > 0:
-                print(cache.hget(sn, 'clip'), cache.hget(sn, 'clip_name').decode())
-                res = send_from_directory(path, cache.hget(sn, 'clip_name').decode('utf-8'),
-                                          as_attachment=True,
-                                          attachment_filename=cache.hget(sn, 'clip_name').decode('utf-8'))
-                cache.hset(sn, 'clip_ts', datetime.now().timestamp())
-                return res
-            elif float(cache.hget(sn, 'clip')) < 0:
-                return Response("Fail", status=404)
-            t1 = datetime.now()
-            print("waiting. . ", t1.timestamp() - t0.timestamp())
-            time.sleep(2)
-        cache.hset(sn, 'clip', -1)
-
-    return Response('Fail', status=404)
+    try:
+        return send_from_directory(path, cache.hget(sn, 'clip_name').decode())
+    except FileNotFoundError:
+        return Response("File Not Found", status=404)
 
 
 # For Robot Detail Page - Chart
@@ -262,112 +221,128 @@ def get_kpi(sn):
 # For Robot Detail Page - Chart
 @app.route("/chart/data/<sn>/<axis>/<key>/recent/<period>")
 def get_chart_data(sn, axis, key, period):
+    """
+    :param sn: Serial Number
+    :param axis: 1 or 6 axis (1 is analog data, 6 is indy axis temperature)
+    :param key: count, mean
+    :param period: hour
+    :return: chart.js dataset
+    """
+
     # print("Opdata Loop SN : %s, Axis : %s, Key : %s, Time : %s" % (sn, axis, key, datetime.now().strftime(fmtAll)))
-    # if key == 'count':
-    #     sql = "SELECT DATE_FORMAT(CONVERT_TZ(MAX(x), '+00:00', '+09:00'), '%%m-%%d %%H:%%i') m, " \
-    #           "COUNT(y) from opdatas " \
-    #           "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" " \
-    #           "GROUP BY ROUND(UNIX_TIMESTAMP(x) / 600) ORDER BY m DESC LIMIT 10" \
-    #           % ((datetime.utcnow() - timedelta(minutes=180)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
-    #     res = MySQL.select(sql)
-    #     # print("Res : ", res)
-    #     if res is not False and res is not None:
-    #         for i in res:
-    #             i['x'] = i['m']
-    #             i['y'] = i['COUNT(y)']
-    #             del i['m'], i['COUNT(y)']
-    # elif key == 'mean' and axis == '1':
-    #     sql = "SELECT DATE_FORMAT(CONVERT_TZ(x, '+00:00', '+09:00'), '%%m-%%d %%H:%%i') m, ROUND(AVG(y), 2) " \
-    #           "FROM analog_opdatas " \
-    #           "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" GROUP BY m ORDER by m DESC LIMIT 80" \
-    #           % ((datetime.utcnow() - timedelta(hours=2)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
-    #     res = MySQL.select(sql)
-    #     if res is not False and res is not None:
-    #         for i in res:
-    #             i['x'] = i['m']
-    #             i['y'] = i['ROUND(AVG(y), 2)']
-    #             del i['m'], i['ROUND(AVG(y), 2)']
-    # elif key == 'mean' and axis == '6':
-    #     sql = "SELECT DATE_FORMAT(CONVERT_TZ(x, '+00:00', '+09:00'), '%%m-%%d %%H:%%i') m, " \
-    #           "ROUND(AVG(joint0), 2), ROUND(AVG(joint1), 2), " \
-    #           "ROUND(AVG(joint2), 2), ROUND(AVG(joint3), 2), " \
-    #           "ROUND(AVG(joint4), 2), ROUND(AVG(joint5), 2) FROM temperature_opdatas " \
-    #           "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" GROUP BY m ORDER by m DESC LIMIT 80" \
-    #           % ((datetime.utcnow() - timedelta(hours=2)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
-    #     res = MySQL.select(sql)
-    #     # print("Res : ", res)
-    #
-    #     az = []
-    #     bz = []
-    #     cz = []
-    #     dz = []
-    #     ez = []
-    #     fz = []
-    #
-    #     if res is None or type(res) is bool: return jsonify(res)
-    #     for i in res:
-    #         a = {'x': i['m'], 'y': i['ROUND(AVG(joint0), 2)']}
-    #         b = {'x': i['m'], 'y': i['ROUND(AVG(joint1), 2)']}
-    #         c = {'x': i['m'], 'y': i['ROUND(AVG(joint2), 2)']}
-    #         d = {'x': i['m'], 'y': i['ROUND(AVG(joint3), 2)']}
-    #         e = {'x': i['m'], 'y': i['ROUND(AVG(joint4), 2)']}
-    #         f = {'x': i['m'], 'y': i['ROUND(AVG(joint5), 2)']}
-    #         az.append(a)
-    #         bz.append(b)
-    #         cz.append(c)
-    #         dz.append(d)
-    #         ez.append(e)
-    #         fz.append(f)
-    #
-    #     aa = [az, bz, cz, dz, ez, fz]
-    #     return jsonify(aa)
-    # else:
-    #     res = None
-    # return jsonify(res)
+    if key == 'count':
+        sql = "SELECT DATE_FORMAT(CONVERT_TZ(MAX(x), '+00:00', '+09:00'), '%%Y-%%m-%%d %%H:%%i:%%S') m, " \
+              "COUNT(y) from opdatas " \
+              "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" " \
+              "GROUP BY ROUND(UNIX_TIMESTAMP(x) / 600) ORDER BY m DESC LIMIT 10" \
+              % ((datetime.utcnow() - timedelta(hours=1)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
+        res = MySQL.select(sql)
+        # print("Res : ", res)
+        if res is not False and res is not None:
+            for i in res:
+                i['x'] = i['m']
+                i['y'] = i['COUNT(y)']
+                del i['m'], i['COUNT(y)']
+    elif key == 'mean' and axis == '1':
+        sql = "SELECT DATE_FORMAT(CONVERT_TZ(x, '+00:00', '+09:00'), '%%Y-%%m-%%d %%H:%%i:%%S') m, ROUND(AVG(y), 2) " \
+              "FROM analog_opdatas " \
+              "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" GROUP BY m ORDER by m DESC LIMIT 80" \
+              % ((datetime.utcnow() - timedelta(hours=1)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
+        res = MySQL.select(sql)
+        if res is not False and res is not None:
+            for i in res:
+                i['x'] = i['m']
+                i['y'] = i['ROUND(AVG(y), 2)']
+                del i['m'], i['ROUND(AVG(y), 2)']
+    elif key == 'mean' and axis == '6':
+        sql = "SELECT DATE_FORMAT(CONVERT_TZ(x, '+00:00', '+09:00'), '%%Y-%%m-%%d %%H:%%i:%%S') m, " \
+              "ROUND(AVG(joint0), 2), ROUND(AVG(joint1), 2), " \
+              "ROUND(AVG(joint2), 2), ROUND(AVG(joint3), 2), " \
+              "ROUND(AVG(joint4), 2), ROUND(AVG(joint5), 2) FROM temperature_opdatas " \
+              "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" GROUP BY m ORDER by m DESC LIMIT 80" \
+              % ((datetime.utcnow() - timedelta(hours=1)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
+        res = MySQL.select(sql)
+        # print("Temp Res : ", res)
 
-    res = [
-        {'x': (datetime.now() - timedelta(minutes=30)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=60)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=90)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=120)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=150)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=180)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=210)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=240)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=270)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=300)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=330)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=360)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=390)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=420)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=450)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=480)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=510)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=540)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=570)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=600)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=630)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=660)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=690)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=720)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=750)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=780)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=810)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=840)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=870)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=900)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=930)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=960)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=990)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=1200)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=1230)).strftime(fmtAll), 'y': random.randrange(30, 100)},
-        {'x': (datetime.now() - timedelta(minutes=1260)).strftime(fmtAll), 'y': random.randrange(30, 100)}
-    ]
+        az = []
+        bz = []
+        cz = []
+        dz = []
+        ez = []
+        fz = []
 
+        if res is None or type(res) is bool: return jsonify(res)
+        for i in res:
+            a = {'x': i['m'], 'y': i['ROUND(AVG(joint0), 2)']}
+            b = {'x': i['m'], 'y': i['ROUND(AVG(joint1), 2)']}
+            c = {'x': i['m'], 'y': i['ROUND(AVG(joint2), 2)']}
+            d = {'x': i['m'], 'y': i['ROUND(AVG(joint3), 2)']}
+            e = {'x': i['m'], 'y': i['ROUND(AVG(joint4), 2)']}
+            f = {'x': i['m'], 'y': i['ROUND(AVG(joint5), 2)']}
+            az.append(a)
+            bz.append(b)
+            cz.append(c)
+            dz.append(d)
+            ez.append(e)
+            fz.append(f)
+
+        aa = [az, bz, cz, dz, ez, fz]
+        # print("Temp : ", aa)
+        return jsonify(aa)
+    else:
+        res = None
+    # print(res)
     return jsonify(res)
+
+    # todo : Test Code
+    # res = [
+    #     {'x': (datetime.now() - timedelta(minutes=30)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=60)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=90)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=120)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=150)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=180)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=210)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=240)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=270)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=300)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=330)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=360)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=390)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=420)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=450)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=480)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=510)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=540)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=570)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=600)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=630)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=660)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=690)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=720)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=750)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=780)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=810)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=840)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=870)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=900)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=930)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=960)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=990)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=1200)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=1230)).strftime(fmtAll), 'y': random.randrange(30, 100)},
+    #     {'x': (datetime.now() - timedelta(minutes=1260)).strftime(fmtAll), 'y': random.randrange(30, 100)}
+    # ]
+    #
+    # return jsonify(res)
 
 
 """ Reporter APIs """
+
+
+@app.route('/ping')
+def ping():
+    return Response(status=200)
 
 
 @app.route("/reporter/robot/info", methods=["POST"])
@@ -450,8 +425,8 @@ def post_robot_chart_data(sn):
     # todo : Chart Data Dic    if request.method == 'POST':
     # todo : Message Type에 따른 Count, Mean 등 조건으로 나눠서 Query를 변환해야 함
     # mtype, msg, mdata
+    print( datetime.now(), request.json)
     if request.json['mtype'] is 1:
-        print(request.json)
         sql = "INSERT INTO opdatas(msg, y, serial_number) " \
               "VALUES (\"%s\", \"%s\", \"%s\") " % (request.json['msg'], request.json['mdata'], sn)
         MySQL.insert(sql)

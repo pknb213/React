@@ -33,7 +33,7 @@ export default class LineGraph extends React.PureComponent {
                 // labels: labels
                 datasets: [
                     {
-                        label: "Sales",
+                        label: "Joint 1",
                         //data: [16, 46, 23, 72, 55, 78],
                         // data: [{'x': '11-06 03:16:00', 'y': 53},
                         // {'x': '11-06 03:15:00', 'y': 11},
@@ -48,7 +48,7 @@ export default class LineGraph extends React.PureComponent {
                         pointRadius: 1.5
                     },
                     {
-                        label: "National Average",
+                        label: "Joint 2",
                         //data: [77, 42, 12, 33, 55, 88],
                         // data: [{'x': '11-06 03:16:00', 'y': 34},
                         // {'x': '11-06 03:15:00', 'y': 21},
@@ -63,7 +63,7 @@ export default class LineGraph extends React.PureComponent {
                         pointRadius: 1.5
                     },
                     {
-                        label: "League Of Legend",
+                        label: "Joint 3",
                         //data: [77, 42, 12, 33, 55, 88],
                         // data: [{'x': '11-06 03:16:00', 'y': 34},
                         // {'x': '11-06 03:15:00', 'y': 21},
@@ -78,7 +78,7 @@ export default class LineGraph extends React.PureComponent {
                         pointRadius: 1.5
                     },
                     {
-                        label: "Unite Underground",
+                        label: "Joint 4",
                         //data: [77, 42, 12, 33, 55, 88],
                         // data: [{'x': '11-06 03:16:00', 'y': 34},
                         // {'x': '11-06 03:15:00', 'y': 21},
@@ -88,6 +88,36 @@ export default class LineGraph extends React.PureComponent {
                         fill: false,
                         backgroundColor: "rgba(255,159,64,0.2)",
                         borderColor: "rgba(255,159,64)",
+                        borderWidth: 1,
+                        lineTension: 0.2,
+                        pointRadius: 1.5
+                    },
+                    {
+                        label: "Joint 5",
+                        //data: [77, 42, 12, 33, 55, 88],
+                        // data: [{'x': '11-06 03:16:00', 'y': 34},
+                        // {'x': '11-06 03:15:00', 'y': 21},
+                        // {'x': '11-06 03:14:00', 'y': 66},
+                        // {'x': '11-06 03:13:00', 'y': 54}],
+                        data: data[4],
+                        fill: false,
+                        backgroundColor: "rgba(54,162,235,0.2)",
+                        borderColor: "rgba(54,162,23)",
+                        borderWidth: 1,
+                        lineTension: 0.2,
+                        pointRadius: 1.5
+                    },
+                    {
+                        label: "Joint 6",
+                        //data: [77, 42, 12, 33, 55, 88],
+                        // data: [{'x': '11-06 03:16:00', 'y': 34},
+                        // {'x': '11-06 03:15:00', 'y': 21},
+                        // {'x': '11-06 03:14:00', 'y': 66},
+                        // {'x': '11-06 03:13:00', 'y': 54}],
+                        data: data[5],
+                        fill: false,
+                        backgroundColor: "rgba(255,99,132,0.2)",
+                        borderColor: "rgba(255,99,132)",
                         borderWidth: 1,
                         lineTension: 0.2,
                         pointRadius: 1.5
@@ -117,7 +147,7 @@ export default class LineGraph extends React.PureComponent {
                             fontStyle: "bold",
                             parser: 'YY-MM-DD HH:mm:ss',
                             unit: 'minute',
-                            unitStepSize: 1,
+                            unitStepSize: 5,
                             displayFormat: {
                                 hour: 'MM-DD HH:mm'
                             }

@@ -87,6 +87,12 @@ def task_server(q, sn):
                 print('> flush')
                 mq.receive()
             sys.exit()
+        except:
+            print("> Task exception")
+            while mq.current_messages > 0:
+                print('> flush')
+                mq.receive()
+            sys.exit()
 
         t1 = datetime.datetime.now()
         # print("> Queue Delay : ", t1 - t0, t1.timestamp() - t0.timestamp())
@@ -141,12 +147,14 @@ def reporter(q, sn, shm):
                 if mtype == 1:
                     print("Received Count( %s %s )" % (mtype, msg))
                     dic = {'mtype': mtype, 'msg': msg, 'mdata': mdata}
-                    s.post(URL + '/opdata/' + sn, json=dic)
+                    s.post(URL + '/reporter/chart/data/' + sn, json=dic)
+                    # s.post(URL + '/opdata/' + sn, json=dic)
                     # POST(s, '/report_robot_opdata/' + sn, json=json.dumps({msg: 1.0}))
                 elif mtype == 2:
                     print("Received Mean( %d %s %s )" % (mtype, msg, mdata))
                     dic = {'mtype': mtype, 'msg': msg, 'mdata': mdata}
-                    s.post(URL + '/opdata/' + sn, json=dic)
+                    s.post(URL + '/reporter/chart/data/' + sn, json=dic)
+                    # s.post(URL + '/opdata/' + sn, json=dic)
                     # POST(s, '/report_robot_opdata/' + sn, json=json.dumps(_dic))
                 elif mtype == 100:
                     print("KPI configuration( %s, %s )" % (msg, mdata))
@@ -163,7 +171,7 @@ def reporter(q, sn, shm):
             # state_idc.update(info_shm.get_all_robot_info_data(info_shm))
             state_idc.update(reporter_shm.get_all_reporter_state(reporter_shm))
             # state_idc.update(sys_shm.get_all_sys_state(sys_shm))
-            s.post(URL + '/reporter/robot/state/' + sn, json=json.dumps(state_idc), timeout=10)
+            s.post(URL + '/reporter/robot/state/' + sn, json=json.dumps(state_idc))
 
             print("\nReporter : ", t0, shm.get_all_reporter_state(shm))
             print(state_idc, "\n")
@@ -174,8 +182,7 @@ def reporter(q, sn, shm):
                 date = str(datetime.datetime.strptime(log_file[12:-4], '%m-%d-%Y-%H-%M-%S'))
                 code = int(log_file[:2])
                 print(date)
-                s.post(URL + '/event/' + sn, json={"time": date, "code": code, "log": EventFiles.latest_log},
-                       timeout=30)
+                s.post(URL + '/event/' + sn, json={"time": date, "code": code, "log": EventFiles.latest_log})
             time.sleep(4)
         except KeyboardInterrupt:
             print("> Reporter Signal Exit")
@@ -183,17 +190,25 @@ def reporter(q, sn, shm):
             sys.exit()
         except requests.exceptions.ConnectionError as e:
             t1 = t0 = datetime.datetime.now()
-            print("Connect Error !!", e)
+            print("> Reporter Connect Error !!", e)
             while True:
                 print("<Reporter> Reconnecting . . . ", t1.timestamp() - t0.timestamp())
                 try:
-                    res = s.post(URL + '/ping', timeout=15)
+                    res = s.get(URL + '/ping', timeout=9)
                     print("Ping res :", res)
                     if res.status_code == 200:
-                        print("<Reporter> Reconnected !!")
+                        print("<Reporter> Reconnected - ", end=' ')
                         break
+                    elif res.status_code == 404:
+                        s.close()
+                        time.sleep(5)
+                        s = requests.Session()
                 except requests.exceptions.ConnectionError:
-                    time.sleep(5)
+                    time.sleep(1)
+                except KeyboardInterrupt:
+                    print("> Reporter Signal Exit")
+                    s.close()
+                    sys.exit()
                 except Exception as e:
                     print(e)
                     time.sleep(2)
@@ -227,16 +242,24 @@ def event_log_uploader(sn, shm):
             sys.exit()
         except requests.exceptions.ConnectionError as e:
             t1 = t0 = datetime.datetime.now()
-            print("> SSE Connect Error !!", e)
+            print("> Log Connect Error !!", e)
             while True:
                 print("<Event> Reconnecting . . . ", t1.timestamp() - t0.timestamp())
                 try:
-                    res = s.post(URL + '/ping', timeout=15)
+                    res = s.get(URL + '/ping', timeout=9)
                     if res.status_code == 200:
-                        print("<Event> Reconnected !!")
+                        print("<Event> Reconnected - ", end=' ')
                         break
+                    elif res.status_code == 404:
+                        s.close()
+                        time.sleep(5)
+                        s = requests.Session()
                 except requests.exceptions.ConnectionError:
-                    time.sleep(5)
+                    time.sleep(1)
+                except KeyboardInterrupt:
+                    print("> Event Log Signal Exit")
+                    s.close()
+                    sys.exit()
                 except Exception as e:
                     print(e)
                     time.sleep(2)
@@ -306,17 +329,25 @@ def clip_uploader(sn, shm):
             s.close()
             sys.exit()
         except requests.exceptions.ConnectionError as e:
-            print("Connect Error !!", e)
+            print("> Clip Connect Error !!", e)
             t1 = t0 = datetime.datetime.now()
             while True:
                 print("<Clip> Reconnecting . . . ", t1.timestamp() - t0.timestamp())
                 try:
-                    res = s.post(URL + '/ping', timeout=15)
+                    res = s.get(URL + '/ping', timeout=9)
                     if res.status_code == 200:
-                        print("<Clip> Reconnected !!")
+                        print("<Clip> Reconnected - ", end=' ')
                         break
+                    elif res.status_code == 404:
+                        s.close()
+                        time.sleep(5)
+                        s = requests.Session()
                 except requests.exceptions.ConnectionError:
-                    time.sleep(5)
+                    time.sleep(1)
+                except KeyboardInterrupt:
+                    print("> Clip Uploader Signal Exit")
+                    s.close()
+                    sys.exit()
                 except Exception as e:
                     print(e)
                     time.sleep(2)
@@ -342,7 +373,7 @@ def clip_uploader(sn, shm):
                     res = s.post(URL + '/reporter/robot/clip/' + sn, files={'file': ('No Camera', '')})
         except requests.exceptions.ConnectionError as e:
             t1 = t0 = datetime.datetime.now()
-            print("Connect Error !!", e)
+            print("-- Connect Error !!", e)
             while True:
                 print("<Clip> Reconnecting . . . ", t1.timestamp() - t0.timestamp())
                 try:
@@ -375,14 +406,16 @@ if __name__ == '__main__':
     shm = ReporterProcessState(REPORTER_PROCESS_SHM, REPORTER_PROCESS_STATE_ADDR, REPORTER_PROCESS_SHM_SIZE)
     print(" >> URL : %s, Company : %s, Site : %s, Header : %s" % (URL, COMPANY, SITE, HEADER))
     if SIMULATION:
-        s = requests.Session()
-        try:
-            s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER, }, timeout=20)
-        except Exception as e:
-            print("> Post Error. Please Check the URL & Server : ", e)
-        time.sleep(0.5)
-        s.close()
-        time.sleep(1.5)
+        while True:
+            s = requests.Session()
+            try:
+                s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER, }, timeout=20)
+            except Exception as e:
+                print("> Post Error. Please Check the URL & Server : ", e)
+                s.close()
+                time.sleep(5)
+                continue
+            break
     else:
         while True:
             f1 = check_task_manager()
@@ -399,7 +432,9 @@ if __name__ == '__main__':
                     s.close()
                     time.sleep(1.5)
                 except Exception as e:
-                    print("> Post Error. Please Check the URL & Server : ", e)
+                    print("\n> Post Error. Please Check the URL & Server : ", e)
+                    time.sleep(5)
+                    continue
                 break
 
     show_reporter_info()

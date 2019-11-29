@@ -40,7 +40,7 @@ export class ChartSection extends React.Component {
                 console.log(this.state);
             });
         this.chartID = setInterval(
-            () => this.chart(), 3000
+            () => this.chart(), 10000
         );
     };
 
@@ -64,7 +64,7 @@ export class ChartSection extends React.Component {
         Axios.get('http://localhost:4000/chart/data/' + this.props.sn +
             '/' + kpi.axis + '/' + kpi.key + '/recent/' + kpi.period)
             .then(res => {
-                //console.log(res.data);
+                console.log(kpi.kpi, kpi.key, kpi.axis, res.data);
                 this.setState({[kpi.kpi]: res.data});
             })
             .catch(err => {
@@ -76,7 +76,7 @@ export class ChartSection extends React.Component {
         return (
             <div className="robot_chart">
                 <BarGraph data={this.state.kpi0}/>
-                <LineGraph data={[this.state.kpi0, this.state.kpi1, this.state.kpi2, this.state.kpi3]}/>
+                <LineGraph data={this.state.kpi1}/>
             </div>
         );
     }

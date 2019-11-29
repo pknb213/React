@@ -79,8 +79,8 @@ export default class BarGraph extends React.PureComponent {
                             padding: 15,
                             fontStyle: "bold",
                             parser: 'YY-MM-DD HH:mm:ss',
-                            unit: 'hour',
-                            unitStepSize: 1,
+                            unit: 'minute',
+                            unitStepSize: 15,
                             displayFormat: {
                                 hour: 'MM-DD HH:mm'
                             }
