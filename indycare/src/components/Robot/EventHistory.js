@@ -14,7 +14,7 @@ export class EventHistoryView extends React.Component {
         this.getMainData = this.getMainData.bind(this);
         this.getModalData = this.getModalData.bind(this);
         this.state = {
-            source: new EventSource("http://121.67.47.157:8884/stream?channel="
+            source: new EventSource("http://localhost:4000/stream?channel="
                 + this.props.sn + "_event"),
             mainRes: [],
             modalRes: []
@@ -38,7 +38,7 @@ export class EventHistoryView extends React.Component {
     }
 
     getMainData = () => {
-        Axios.get('http://121.67.47.157:8884/datatable/events/' + this.props.sn + '/limit')
+        Axios.get('http://localhost:4000/datatable/events/' + this.props.sn + '/limit')
             .then(res => {
                 this.setState({mainRes: res.data});
             }).catch(e => {
@@ -47,7 +47,7 @@ export class EventHistoryView extends React.Component {
     };
 
     getModalData = () => {
-        Axios.get('http://121.67.47.157:8884/datatable/events/' + this.props.sn + '/all')
+        Axios.get('http://localhost:4000/datatable/events/' + this.props.sn + '/all')
             .then(res => {
                 this.setState({modalRes: res.data});
             }).catch(e => {

@@ -30,13 +30,13 @@ class CamView extends React.Component {
     }
 
     clip() {
-        Axios.get('http://121.67.47.157:8884/clip/' + this.props.sn)
+        Axios.get('http://localhost:4000/clip/' + this.props.sn)
             .then(res => {
                 // console.log(res);
                 if (res.data === 'ok') {
                     const video = this.refs.main;
                     //video.style.display = 'block';
-                    Axios.get('http://121.67.47.157:8884/get/clip/' + this.props.sn)
+                    Axios.get('http://localhost:4000/get/clip/' + this.props.sn)
                         .then(res =>{
                             // console.log(res);
                             this.setState({
@@ -44,7 +44,7 @@ class CamView extends React.Component {
                             });
                         });
                     video.setAttribute('src',
-                        'http://121.67.47.157:8884/get/clip/' + this.props.sn);
+                        'http://localhost:4000/get/clip/' + this.props.sn);
                     this.setState({
                         clipTick: new Date().valueOf()
                     })
@@ -74,7 +74,7 @@ class CamView extends React.Component {
                     <h3>&nbsp;&nbsp;{this.state.tick.toLocaleTimeString()}&nbsp;&nbsp;&nbsp;</h3>
                 </div>
                 <video id="clip" width="350" height="280" controls loop muted autoPlay
-                       poster='http://121.67.47.157:8884/get/poster' ref='main'>
+                       poster='http://localhost:4000/get/poster' ref='main'>
                     <source src={this.state.videoURL} type="video/mp4"/>
                     Please, refresh the web site.
                 </video>

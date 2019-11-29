@@ -15,7 +15,7 @@ class DataTableComponent extends React.Component {
     // }
 
     componentDidMount(nextProps, nextState) {
-        Axios.get('http://121.67.47.157:8884/datatable/robots/all')
+        Axios.get('http://localhost:4000/datatable/robots/all')
             .then(res => {
                 console.log(res);
                 this.table = $(this.refs.main).DataTable({

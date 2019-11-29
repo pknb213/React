@@ -120,7 +120,7 @@ def events(sn, condition):
         i['code'] = get_robot_code_description(a['code'])
         # a = a['log'].split('\\')  # For Window
         a = a['log'].split('/')  # For Linux
-        i['down'] = '<a class=c_hyper href=http://121.67.47.157:8884/datatable/event/%s/%s>' % (a[-1], i['sn'])
+        i['down'] = '<a class=c_hyper href=http://localhost:4000/datatable/event/%s/%s>' % (a[-1], i['sn'])
 
     return jsonify(res)
 

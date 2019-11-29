@@ -27,7 +27,7 @@ export class ChartSection extends React.Component {
     }
 
     getKpi = (sn) => {
-        Axios.get('http://121.67.47.157:8884/get/kpi/' + sn)
+        Axios.get('http://localhost:4000/get/kpi/' + sn)
             .then(res => {
                 //console.log(res);
                 this.setState({kpi: res.data});
@@ -61,7 +61,7 @@ export class ChartSection extends React.Component {
     }
 
     get_data(kpi) {
-        Axios.get('http://121.67.47.157:8884/chart/data/' + this.props.sn +
+        Axios.get('http://localhost:4000/chart/data/' + this.props.sn +
             '/' + kpi.axis + '/' + kpi.key + '/recent/' + kpi.period)
             .then(res => {
                 console.log(kpi.kpi, kpi.key, kpi.axis, res.data);

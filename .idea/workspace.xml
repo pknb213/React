@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="2f51bf2b-56a5-4dd3-b857-486a61ff224c" name="Default Changelist" comment="" />
+    <list default="true" id="2f51bf2b-56a5-4dd3-b857-486a61ff224c" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/React.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/React.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/http_conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/http_conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Flask/apis.py" beforeDir="false" afterPath="$PROJECT_DIR$/Flask/apis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/build/static/js/main.c8b904d0.chunk.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/build/static/js/main.c8b904d0.chunk.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/build/static/js/main.c8b904d0.chunk.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/build/static/js/main.c8b904d0.chunk.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/src/components/Login/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/components/Login/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/src/components/Public/DataTable.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/components/Public/DataTable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/src/components/Robot/Cam.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/components/Robot/Cam.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/src/components/Robot/EventHistory.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/components/Robot/EventHistory.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/src/components/Robot/RobotChart.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/components/Robot/RobotChart.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/indycare/src/components/Robot/State.js" beforeDir="false" afterPath="$PROJECT_DIR$/indycare/src/components/Robot/State.js" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/indycare/node_modules/" />
     <ignored path="$PROJECT_DIR$/react_test/node_modules/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -11,36 +25,25 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/React$app.coverage" NAME="app Coverage Results" MODIFIED="1575006474938" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Flask" />
+    <SUITE FILE_PATH="coverage/React$app.coverage" NAME="app Coverage Results" MODIFIED="1575010860649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Flask" />
+    <SUITE FILE_PATH="coverage/React$reporter.coverage" NAME="reporter Coverage Results" MODIFIED="1575011564324" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Flask/IndyCAREReporter" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/indycare/src/components/Login/Login.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="55" column="14" selection-start-line="55" selection-start-column="14" selection-end-line="55" selection-end-column="14" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/indycare/src/view/robot_page.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="627">
-              <caret line="40" column="26" lean-forward="true" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+              <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Flask/apis.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="125">
-              <caret line="422" column="57" selection-start-line="422" selection-start-column="57" selection-end-line="422" selection-end-column="57" />
+            <state relative-caret-position="486">
+              <caret line="90" column="20" selection-start-line="90" selection-start-column="20" selection-end-line="90" selection-end-column="20" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -63,23 +66,50 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/indycare/src/components/Robot/RobotChart.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="855">
+            <state relative-caret-position="19">
               <caret line="45" selection-start-line="45" selection-end-line="45" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Flask/python/utils.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="570">
+              <caret line="30" column="16" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
               <folding>
-                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#0#34#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Flask/python/utils.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Flask/IndyCAREReporter/reporter.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="570">
-              <caret line="30" column="16" lean-forward="true" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
+            <state relative-caret-position="209">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
               <folding>
-                <element signature="e#0#34#0" expanded="true" />
+                <element signature="e#0#14#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/config.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="247">
+              <caret line="13" selection-start-line="13" selection-end-line="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/indyCAREConfig.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="95">
+              <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -105,9 +135,12 @@
       <find>02</find>
       <find>h2</find>
       <find>localhost:4000</find>
+      <find>121.67.47.157:8884</find>
     </findStrings>
     <replaceStrings>
       <replace />
+      <replace>121.67.47.157:8884</replace>
+      <replace>localhost:4000</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -122,6 +155,10 @@
         <option value="$PROJECT_DIR$/indycare/src/components/Public/LineGraph.js" />
         <option value="$PROJECT_DIR$/indycare/src/view/robot_page.js" />
         <option value="$PROJECT_DIR$/indycare/package.json" />
+        <option value="$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/http_conf.py" />
+        <option value="$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/indyCAREConfig.json" />
+        <option value="$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/config.py" />
+        <option value="$PROJECT_DIR$/Flask/apis.py" />
       </list>
     </option>
   </component>
@@ -150,7 +187,19 @@
             <path>
               <item name="React" type="b2602c69:ProjectViewProjectNode" />
               <item name="React" type="462c0819:PsiDirectoryNode" />
+              <item name="Flask" type="462c0819:PsiDirectoryNode" />
+              <item name="python" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="React" type="b2602c69:ProjectViewProjectNode" />
+              <item name="React" type="462c0819:PsiDirectoryNode" />
               <item name="indycare" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="React" type="b2602c69:ProjectViewProjectNode" />
+              <item name="React" type="462c0819:PsiDirectoryNode" />
+              <item name="indycare" type="462c0819:PsiDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -161,7 +210,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Flask/IndyCAREReporter" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -175,7 +224,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.reporter">
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="React" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -198,8 +247,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="reporter" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="React" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/Flask/IndyCAREReporter" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Flask/IndyCAREReporter/reporter.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.reporter" />
         <item itemvalue="Python.app" />
       </list>
     </recent_temporary>
@@ -217,22 +289,24 @@
       <workItem from="1574995998919" duration="896000" />
       <workItem from="1574997182127" duration="17000" />
       <workItem from="1574997343653" duration="2501000" />
-      <workItem from="1575003139838" duration="2062000" />
+      <workItem from="1575003139838" duration="5510000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2080000" />
+    <option name="totallyTimeSpent" value="5528000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="2552" y="0" width="2576" height="1416" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.09340223" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="File Transfer" weight="0.3299532" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3299532" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3299532" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -241,7 +315,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3299532" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3299532" />
       <window_info anchor="bottom" id="Python Console" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -281,16 +355,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indycare/src/components/Robot/RobotChart.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="855">
-          <caret line="45" selection-start-line="45" selection-end-line="45" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Flask/app.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
@@ -300,16 +364,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/indycare/src/view/home.js">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Flask/apis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="422" column="57" selection-start-line="422" selection-start-column="57" selection-end-line="422" selection-end-column="57" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indycare/package.json">
       <provider selected="true" editor-type-id="text-editor">
@@ -321,7 +375,7 @@
     <entry file="file://$PROJECT_DIR$/indycare/src/view/robot_page.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="627">
-          <caret line="40" column="26" lean-forward="true" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -332,12 +386,63 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/http_conf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indycare/src/components/Robot/RobotChart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Flask/IndyCAREReporter/reporter_conf/indyCAREConfig.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="95">
+          <caret line="5" column="1" selection-start-line="5" selection-start-column="1" selection-end-line="5" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Flask/python/utils.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
-          <caret line="30" column="16" lean-forward="true" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
+          <caret line="30" column="16" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Flask/IndyCAREReporter/reporter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="209">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Flask/apis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="486">
+          <caret line="90" column="20" selection-start-line="90" selection-start-column="20" selection-end-line="90" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
