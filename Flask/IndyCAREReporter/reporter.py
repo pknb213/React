@@ -159,7 +159,7 @@ def reporter(q, sn, shm):
                 elif mtype == 100:
                     print("KPI configuration( %s, %s )" % (msg, mdata))
                     dic = {'mtype': mtype, 'msg': msg, 'mdata': mdata}
-                    s.post(URL + "/reporter/kpi/" + sn, json=dic)
+                    s.post(URL + "/reporter/robot/kpi/" + sn, json=dic)
                     # POST(s, '/report_kpi_string/' + sn, json=json.dumps({msg: mdata}))
                 else:
                     pass
@@ -181,8 +181,8 @@ def reporter(q, sn, shm):
                 # 여기서 바로 file로 event log를 보내도 된다고 생각 함
                 date = str(datetime.datetime.strptime(log_file[12:-4], '%m-%d-%Y-%H-%M-%S'))
                 code = int(log_file[:2])
-                print(date)
-                s.post(URL + '/event/' + sn, json={"time": date, "code": code, "log": EventFiles.latest_log})
+                print(date, code)
+                s.post(URL + '/reporter/robot/event/' + sn, json={"time": date, "code": code, "log": EventFiles.latest_log})
             time.sleep(4)
         except KeyboardInterrupt:
             print("> Reporter Signal Exit")

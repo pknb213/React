@@ -126,18 +126,42 @@ def events(sn, condition):
 
 
 # For Robot Detail Page - Events
-@app.route("/datatable/event/<filename>/<sn>")
+@app.route("/datatable/event/<filename>/<sn>", methods=["GET", "POST"])
 def request_event(filename, sn):
     print(filename, sn, request)
-    load_sse_command(sn, '_event', {'sn': sn, 'filename': filename})
-
+    clip_path = os.path.join(os.getcwd(), 'upload')
+    if request.method == "GET":
+        cache.hset(sn, 'event_log', 0)
+        print("Log를 요청하겠사와요")
+        load_sse_command(sn, '_event_log', {'sn': sn, 'filename': filename})
+    elif request.method == "POST":
+        if request.files:
+            file_name = request.files['file'].filename
+            request.files['file'].save(os.path.join(clip_path, file_name))
+            cache.hset(sn, 'event_log', 1)
+            cache.hset(sn, 'log_name', file_name)
+            return Response('ok')
+        else:
+            return Response("Empty the File", status=404)
+    else:
+        return Response("Undefined Http Method Type")
     t1 = t0 = datetime.now()
     while t1.timestamp() - t0.timestamp() <= app.config['ROBOT_DATA_WAIT_TIMEOUT']:
+        st = int(cache.hget(sn, 'event_log'))
+        if st < 0:
+            print("Fail")
+            return Response("No Log", status=404)
+        if st > 0:
+            res = send_from_directory(clip_path, cache.hget(sn, 'log_name').decode('utf-8'),
+                                      as_attachment=True,
+                                      attachment_filename=cache.hget(sn, 'log_name').decode('utf-8'))
+            print("Succ :", res)
+            print(cache.hgetall(sn))
+            return res
+
         time.sleep(1)
         t1 = datetime.now()
-        print("Wait : ", t1.timestamp() - t0.timestamp())
-
-        # Todo : File 다운 받는 코드 작성 필요
+        print('Log Waiting', t1.timestamp() - t0.timestamp())
 
     return redirect('http://localhost:3000/display/' + sn)
 
@@ -380,7 +404,7 @@ def post_robot_state(sn):
     _ts = datetime.now().timestamp()
     print("Reporter State :", _state)
     cache.hset(sn, 'state', json.dumps(_state))
-    if cache.hget(sn, 'ts') is None or _ts - float(cache.hget(sn, 'ts')) > 60:
+    if cache.hget(sn, 'ts') is None or _ts - float(cache.hget(sn, 'ts')) > 60 and _state is not None:
         sql = '''INSERT INTO robot_states(serial_number, state) VALUES (\"%s\", \"%s\")
         ''' % (sn, _state)
         MySQL.insert(sql)
@@ -388,17 +412,19 @@ def post_robot_state(sn):
     return Response("ok")
 
 
-@app.route("/reporter/robot/event/<file>/<sn>", methods=["POST"])
-def post_robot_event(file, sn):
+@app.route("/reporter/robot/event/<sn>", methods=["POST"])
+def post_robot_event(sn):
     # todo : Event Down
-    if file is None:
-        print("No Event File")
-        return Response('ok')
-    log_save_path = os.path.join(app.config['EVENT_LOG_PATH'])
-    file.save(log_save_path)
-    sql = '''INSERT INTO events (json, sn, file) VALUES ('test', \"%s\", \"%s\")
-    ''' % (sn, 'Test')
+    # if file is None:
+    #     print("No Event File")
+    #     return Response('ok')
+    #log_save_path = os.path.join(app.config['EVENT_LOG_PATH'])
+    # file.save(log_save_path)
+    print("Event Log : ", request.json)
+    sql = '''INSERT INTO events (json, sn) VALUES (\"%s\", \"%s\")
+    ''' % (str(request.json), sn)
     MySQL.insert(sql)
+    load_sse_command(sn, '_event')
     return Response('ok')
 
 
