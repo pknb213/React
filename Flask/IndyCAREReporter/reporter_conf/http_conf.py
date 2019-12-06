@@ -1,10 +1,12 @@
 from sseclient import SSEClient
-import datetime, functools
-from .config import URL
+import datetime, functools, sys, os
+sys.path.append(os.getcwd() + os.path.sep + 'reporter_conf')
+from config import URL
 
 # URL = 'http://192.168.0.89:5005'
 # URL = 'http://121.67.47.157:8881'
 # URL = 'http://indycare.neuromeka.com:8881'
+# URL = 'http://indycare.neuromeka.com:8884'
 # URL = 'http://127.0.0.1:4000'
 # URL = 'http://192.168.0.89:4000'
 

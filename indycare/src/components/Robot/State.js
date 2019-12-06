@@ -31,52 +31,75 @@ function StateDiv(props) {
     // 0 ~ 9
     for (let key in state) {
         let imgElement;
-        //console.log(key, state[key]);
+        // console.log(key, state[key]);
         if (state.hasOwnProperty(key)) {
             if (state[key] > 0) {
-                if (key === 'busy')
-                    imgElement = <ImgOnly src={busyIcon} text={'BUSY'}/>;
-                else if (key === 'ready')
-                    imgElement = <ImgOnly src={readyIcon} text={'READY'}/>;
-                else if (key === 'collision')
+                if (key === 'busy'){
+                    key = 1;
+                    imgElement = <ImgOnly src={busyIcon} text={'BUSY'}/>;}
+                else if (key === 'ready'){
+                    key = 2;
+                    imgElement = <ImgOnly src={readyIcon} text={'READY'}/>;}
+                else if (key === 'collision') {
+                    key = 3;
                     imgElement = <ImgOnly src={collisionIcon} text={'COLLISION'}/>;
-                else if (key === 'error')
+                } else if (key === 'error') {
+                    key = 4;
                     imgElement = <ImgOnly src={errorIcon} text={'ERROR'}/>;
-                else if (state[key] === 2)
+                } else if (state[key] === 2){
+                    key = 6;
                     imgElement = <ImgOnly src={statePauseIcon} text={'PROGRAM STATE'}/>;
-                else if (key === 'program_state')
+                } else if (key === 'program_state') {
+                    key = 6;
                     imgElement = <ImgOnly src={statePlayIcon} text={'PROGRAM STATE'}/>;
-                else if (key === 'emergency')
+                } else if (key === 'emergency') {
+                    key = 5;
                     imgElement = <ImgOnly src={emergencyIcon} text={'EMERGENCY'}/>;
-                else if (key === 'is_reporter_running')
+                } else if (key === 'is_reporter_running') {
+                    key = 7;
                     imgElement = <ImgOnly src={reporterConnectIcon} text={'ROBOT CONNECTED'}/>;
-                else if (key === 'is_server_connected')
+                } else if (key === 'is_server_connected') {
+                    key = 8;
                     imgElement = <ImgOnly src={serverConnectIcon} text={'SERVER CONNECTED'}/>;
-
+                }
                 rows.push(<li id={key + '_li'} key={key}>{imgElement}</li>);
             } else {
-                if (key === 'busy')
+                if (key === 'busy') {
+                    key = 1;
                     imgElement = <ImgOnly src={unbusyIcon} text={'BUSY'}/>;
-                else if (key === 'ready')
+                } else if (key === 'ready') {
+                    key = 2;
                     imgElement = <ImgOnly src={unreadyIcon} text={'READY'}/>;
-                else if (key === 'collision')
+                } else if (key === 'collision') {
+                    key = 3;
                     imgElement = <ImgOnly src={uncollisionIcon} text={'COLLISION'}/>;
-                else if (key === 'error')
+                } else if (key === 'error') {
+                    key = 4;
                     imgElement = <ImgOnly src={unerrorIcon} text={'ERROR'}/>;
-                else if (key === 'program_state')
+                } else if (key === 'program_state') {
+                    key = 6;
                     imgElement = <ImgOnly src={unstateStopIcon} text={'PROGRAM STATE'}/>;
-                else if (key === 'emergency')
+                } else if (key === 'emergency'){
+                    key = 5;
                     imgElement = <ImgOnly src={unemergencyIcon} text={'EMERGENCY'}/>;
-                else if (key === 'is_reporter_running')
+                } else if (key === 'is_reporter_running') {
+                    key = 7;
                     imgElement = <ImgOnly src={reporterNotConnectIcon} text={'ROBOT CONNECTED'}/>;
-                else if (key === 'is_server_connected')
+                } else if (key === 'is_server_connected') {
+                    key = 8;
                     imgElement = <ImgOnly src={serverNotConnectIcon} text={'SERVER CONNECTED'}/>;
-
+                }
                 rows.push(<li id={key + '_li'} key={key}>{imgElement}</li>);
             }
         } else
             alert("Error입니다");
     }
+
+    rows.sort(function (a, b) {
+        return a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
+    });
+
+    // console.log(rows);
 
     return (
         <div className="robot_state_noti">
@@ -92,8 +115,9 @@ class StateView extends React.Component {
         super(props);
         this.state = {
             robotState: {
-                'busy': 0, 'collision': 0, 'emergency': 0, 'error': 0, 'home': 0,
-                'finish': 0, 'ready': 0, 'resetting': 0, 'zero': 0, 'is_server_connected': 0
+                'busy': 0, 'ready': 0, 'collision': 0, 'emergency': 0, 'error': 0, 'home': 0,
+                'finish': 0, 'resetting': 0, 'zero': 0, 'is_server_connected': 0, 'is_reporter_running': 0,
+                'is_task_running': 0, 'scm_connected': 0, 'error_code': 0, 'program_state': 0
             }
         }
     }

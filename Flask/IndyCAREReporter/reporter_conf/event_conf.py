@@ -25,18 +25,25 @@ class EventFiles:
         print('no clip file...')
         return None
 
+    # @classmethod
+    # def get_latest_log(cls):
+    #     check_duration = 1
+    #     timeout = 10
+    #     while timeout > 0:
+    #         logs = glob.glob(EventFiles.EVENT_DIRECTORY + '*.tgz')
+    #         if len(logs) > 0:
+    #             logs.sort(key=os.path.getmtime, reverse=True)
+    #             return logs[0]
+    #         time.sleep(check_duration)
+    #         timeout -= check_duration
+    #     return ''
+
     @classmethod
     def get_latest_log(cls):
-        check_duration = 1
-        timeout = 10
-        while timeout > 0:
-            logs = glob.glob(EventFiles.EVENT_DIRECTORY + '*.tgz')
-            if len(logs) > 0:
-                logs.sort(key=os.path.getmtime, reverse=True)
-                return logs[0]
-            time.sleep(check_duration)
-            timeout -= check_duration
-        return ''
+        logs = glob.glob(EventFiles.EVENT_DIRECTORY + '*.tgz')
+        if len(logs) == 0: return ''
+        logs.sort(key=os.path.getmtime, reverse=True)
+        return logs[0]
 
     @classmethod
     def check_if_new_log(cls):

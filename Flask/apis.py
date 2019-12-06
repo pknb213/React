@@ -280,9 +280,9 @@ def get_chart_data(sn, axis, key, period):
                 del i['m'], i['ROUND(AVG(y), 2)']
     elif key == 'mean' and axis == '6':
         sql = "SELECT DATE_FORMAT(CONVERT_TZ(x, '+00:00', '+09:00'), '%%Y-%%m-%%d %%H:%%i:%%S') m, " \
-              "ROUND(AVG(joint0), 2), ROUND(AVG(joint1), 2), " \
-              "ROUND(AVG(joint2), 2), ROUND(AVG(joint3), 2), " \
-              "ROUND(AVG(joint4), 2), ROUND(AVG(joint5), 2) FROM temperature_opdatas " \
+              "AVG(joint0), AVG(joint1), " \
+              "AVG(joint2), AVG(joint3), " \
+              "AVG(joint4), AVG(joint5) FROM temperature_opdatas " \
               "WHERE x >= \"%s\" AND x < \"%s\" AND serial_number = \"%s\" GROUP BY m ORDER by m DESC LIMIT 80" \
               % ((datetime.utcnow() - timedelta(hours=1)).strftime(fmtAll), datetime.utcnow().strftime(fmtAll), sn)
         res = MySQL.select(sql)
@@ -297,12 +297,12 @@ def get_chart_data(sn, axis, key, period):
 
         if res is None or type(res) is bool: return jsonify(res)
         for i in res:
-            a = {'x': i['m'], 'y': i['ROUND(AVG(joint0), 2)']}
-            b = {'x': i['m'], 'y': i['ROUND(AVG(joint1), 2)']}
-            c = {'x': i['m'], 'y': i['ROUND(AVG(joint2), 2)']}
-            d = {'x': i['m'], 'y': i['ROUND(AVG(joint3), 2)']}
-            e = {'x': i['m'], 'y': i['ROUND(AVG(joint4), 2)']}
-            f = {'x': i['m'], 'y': i['ROUND(AVG(joint5), 2)']}
+            a = {'x': i['m'], 'y': round(i['AVG(joint0)'])}
+            b = {'x': i['m'], 'y': round(i['AVG(joint1)'])}
+            c = {'x': i['m'], 'y': round(i['AVG(joint2)'])}
+            d = {'x': i['m'], 'y': round(i['AVG(joint3)'])}
+            e = {'x': i['m'], 'y': round(i['AVG(joint4)'])}
+            f = {'x': i['m'], 'y': round(i['AVG(joint5)'])}
             az.append(a)
             bz.append(b)
             cz.append(c)
@@ -387,9 +387,14 @@ def post_sn_from_reporter():
         _header = ''
     else:
         _header = request.json['header']
+    if 'model' not in request.json:
+        _model = ''
+    else:
+        _model = request.json['model']
 
-    sql = '''INSERT INTO robots(sn, company, site, header) VALUES (\"%s\", \"%s\", \"%s\", \"%s\") ON DUPLICATE KEY UPDATE sn = \"%s\"
-    ''' % (_sn, _company, _site, _header, _sn)
+    sql = '''INSERT INTO robots(sn, company, site, header) VALUES (\"%s\", \"%s\", \"%s\", \"%s\") 
+    ON DUPLICATE KEY UPDATE site=\"%s\", company=\"%s\", header=\"%s\", model=\"%s\"
+    ''' % (_sn, _company, _site, _header, _site, _company, _header, _model)
     if MySQL.insert(sql):
         print("Welcome New S/N Indy")
     else:
@@ -451,7 +456,7 @@ def post_robot_chart_data(sn):
     # todo : Chart Data Dic    if request.method == 'POST':
     # todo : Message Type에 따른 Count, Mean 등 조건으로 나눠서 Query를 변환해야 함
     # mtype, msg, mdata
-    print( datetime.now(), request.json)
+    print(datetime.now(), request.json)
     if request.json['mtype'] is 1:
         sql = "INSERT INTO opdatas(msg, y, serial_number) " \
               "VALUES (\"%s\", \"%s\", \"%s\") " % (request.json['msg'], request.json['mdata'], sn)
@@ -465,7 +470,8 @@ def post_robot_chart_data(sn):
             temp = request.json['mdata'].split(',')
             sql = "INSERT INTO temperature_opdatas(msg, serial_number, joint0, joint1, joint2, joint3, joint4, joint5) " \
                   "VALUES (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\") " \
-                  % (request.json['msg'], sn, temp[0], temp[1], temp[2], temp[3], temp[4], temp[5])
+                  % (request.json['msg'], sn, 0, 0, 0, 0, 0, 0)
+                  # % (request.json['msg'], sn, temp[0], temp[1], temp[2], temp[3], temp[4], temp[5])
         MySQL.insert(sql)
     else:
         print("Insert Fail : ", request.json)
@@ -481,13 +487,17 @@ def post_robot_kpi(sn):
     print("Reporter KPI :", request.json)
     if request.json is not None or request.json is not False:
         kpi_num = request.json['mdata'].split(',')[0]
+        kpi_str = request.json['mdata']
     else:
         return Response('Fail')
     sql = "INSERT INTO robots (sn, %s) " \
           "VALUES (\"%s\", \"%s\") " \
           "ON DUPLICATE KEY UPDATE %s=\"%s\" " \
-          % (kpi_num, sn, request.json['mdata'], kpi_num, request.json['mdata'])
-    MySQL.insert(sql)
+          % (kpi_num, sn, kpi_str, kpi_num, kpi_str)
+    if MySQL.insert(sql):
+        print("Welcome New S/N Indy")
+    else:
+        print("Already, S/N Indy")
     return Response('ok')
 
 

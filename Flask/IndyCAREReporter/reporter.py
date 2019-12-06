@@ -157,6 +157,7 @@ def reporter(q, sn, shm):
                     # s.post(URL + '/opdata/' + sn, json=dic)
                     # POST(s, '/report_robot_opdata/' + sn, json=json.dumps(_dic))
                 elif mtype == 100:
+                    # {'mtype': 100, 'mdata': 'kpi1,tt,hour,mean,6', 'msg': 'kpi_config'}
                     print("KPI configuration( %s, %s )" % (msg, mdata))
                     dic = {'mtype': mtype, 'msg': msg, 'mdata': mdata}
                     s.post(URL + "/reporter/robot/kpi/" + sn, json=dic)
@@ -183,7 +184,8 @@ def reporter(q, sn, shm):
                 code = int(log_file[:2])
                 print(date, code)
                 s.post(URL + '/reporter/robot/event/' + sn, json={"time": date, "code": code, "log": EventFiles.latest_log})
-            time.sleep(4)
+            s.close()
+            time.sleep(0.5)
         except KeyboardInterrupt:
             print("> Reporter Signal Exit")
             s.close()
@@ -409,7 +411,7 @@ if __name__ == '__main__':
         while True:
             s = requests.Session()
             try:
-                s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER, }, timeout=20)
+                s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER, 'company': COMPANY, 'site': SITE, 'header': HEADER})
             except Exception as e:
                 print("> Post Error. Please Check the URL & Server : ", e)
                 s.close()
@@ -427,7 +429,7 @@ if __name__ == '__main__':
             if f1 is True and f2 is True and sn:
                 s = requests.Session()
                 try:
-                    s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER}, timeout=20)
+                    s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER, 'company': COMPANY, 'site': SITE, 'header': HEADER})
                     time.sleep(0.5)
                     s.close()
                     time.sleep(1.5)
