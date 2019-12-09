@@ -1,7 +1,8 @@
 from sseclient import SSEClient
 import datetime, functools, sys, os
-sys.path.append(os.getcwd() + os.path.sep + 'reporter_conf')
-from config import URL
+# sys.path.append(os.getcwd() + os.path.sep + 'reporter_conf')
+sys.path.append('/Home/user/release/IndyCAREReporter/reporter_conf')
+from config import *
 
 # URL = 'http://192.168.0.89:5005'
 # URL = 'http://121.67.47.157:8881'

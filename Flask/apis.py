@@ -392,9 +392,9 @@ def post_sn_from_reporter():
     else:
         _model = request.json['model']
 
-    sql = '''INSERT INTO robots(sn, company, site, header) VALUES (\"%s\", \"%s\", \"%s\", \"%s\") 
+    sql = '''INSERT INTO robots(sn, company, site, header, model) VALUES (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\") 
     ON DUPLICATE KEY UPDATE site=\"%s\", company=\"%s\", header=\"%s\", model=\"%s\"
-    ''' % (_sn, _company, _site, _header, _site, _company, _header, _model)
+    ''' % (_sn, _company, _site, _header, _model, _site, _company, _header, _model)
     if MySQL.insert(sql):
         print("Welcome New S/N Indy")
     else:
@@ -470,8 +470,8 @@ def post_robot_chart_data(sn):
             temp = request.json['mdata'].split(',')
             sql = "INSERT INTO temperature_opdatas(msg, serial_number, joint0, joint1, joint2, joint3, joint4, joint5) " \
                   "VALUES (\"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", \"%s\") " \
-                  % (request.json['msg'], sn, 0, 0, 0, 0, 0, 0)
-                  # % (request.json['msg'], sn, temp[0], temp[1], temp[2], temp[3], temp[4], temp[5])
+                  % (request.json['msg'], sn, temp[0], temp[1], temp[2], temp[3], temp[4], temp[5])
+                  # % (request.json['msg'], sn, 0, 0, 0, 0, 0, 0)
         MySQL.insert(sql)
     else:
         print("Insert Fail : ", request.json)

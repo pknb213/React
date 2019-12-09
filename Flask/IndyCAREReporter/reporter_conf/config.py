@@ -11,6 +11,7 @@ try:
     COMPANY = json_data['company']
     SITE = json_data['site']
     HEADER = json_data['header']
+    MODEL = json_data['model']
 except Exception as e:
     print("Config.py Error! Please Check the indyCAREConfig.json : ",  e)
     raise e

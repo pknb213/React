@@ -1,8 +1,9 @@
 import sys, os
 from multiprocessing import Process
-
-sys.path.append(os.getcwd() + os.path.sep + 'reporter_conf')
-from config import URL, SITE, COMPANY, HEADER
+# sys.path.append(os.getcwd() + os.path.sep + 'reporter_conf')
+# print(os.getcwd() + os.path.sep + 'reporter_conf')
+sys.path.append('/home/user/release/IndyCAREReporter/reporter_conf')
+from config import URL, SITE, COMPANY, HEADER, MODEL
 from http_conf import URL, SSEClient
 from util_conf import requests, Process, Queue, set_start_method, random, datetime, time, MessageQueue, O_CREAT, \
     set_proc_name, check_robot_info, check_shm, check_task_manager, json
@@ -11,7 +12,6 @@ from indyShm_conf import *
 from reporterShm_conf import *
 
 SIMULATION = False
-# ROBOT_SERIAL_NUMBER = 'GLOBALTEST12'
 ROBOT_SERIAL_NUMBER = 'D1234'
 
 
@@ -406,12 +406,12 @@ def clip_uploader(sn, shm):
 if __name__ == '__main__':
     set_start_method('spawn', True)
     shm = ReporterProcessState(REPORTER_PROCESS_SHM, REPORTER_PROCESS_STATE_ADDR, REPORTER_PROCESS_SHM_SIZE)
-    print(" >> URL : %s, Company : %s, Site : %s, Header : %s" % (URL, COMPANY, SITE, HEADER))
+    print(" >> URL : %s, Company : %s, Site : %s, Header : %s, Model : %s" % (URL, COMPANY, SITE, HEADER, MODEL))
     if SIMULATION:
         while True:
             s = requests.Session()
             try:
-                s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER, 'company': COMPANY, 'site': SITE, 'header': HEADER})
+                s.post(URL + '/reporter/robot/info', json={'sn': ROBOT_SERIAL_NUMBER, 'company': COMPANY, 'site': SITE, 'header': HEADER, 'model': MODEL})
             except Exception as e:
                 print("> Post Error. Please Check the URL & Server : ", e)
                 s.close()
