@@ -35,7 +35,7 @@
 }
 
 .list_contents_table .table_style thead tr th:last-of-type {
-  text-align: right;
+  text-align: left;
 }
 
 .list_contents_table .table_style tbody tr {

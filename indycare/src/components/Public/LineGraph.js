@@ -139,6 +139,7 @@ export default class LineGraph extends React.PureComponent {
                     intersect: false,
                     animationDuration: 0
                 },
+                animation: false,
                 scales: {
                     xAxes: [{
                         //barThickness: 30,
@@ -148,7 +149,7 @@ export default class LineGraph extends React.PureComponent {
                             fontStyle: "bold",
                             parser: 'YY-MM-DD HH:mm:ss',
                             unit: 'minute',
-                            unitStepSize: 5,
+                            // unitStepSize: 5,
                             displayFormat: {
                                 hour: 'MM-DD HH:mm'
                             }

@@ -40,6 +40,7 @@ class DataTableComponent extends React.Component {
                 this.table.rows().every((index)=> {
                      let str = this.table.cell(index, 7).data();
                      this.table.cell(index, 7).data(str + '<img alt="" src=' + Monitering + '></a>');
+                     return true;
                 });
             })
             .catch(e => {

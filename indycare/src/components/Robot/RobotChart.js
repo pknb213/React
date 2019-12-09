@@ -53,8 +53,9 @@ export class ChartSection extends React.Component {
                 this.get_data(kpi);
                 i++;
             } else {
-                this.setState({[kpi.kpi]: ''})
+                this.setState({[kpi.kpi]: ''});
             }
+            return true;
         });
         this.setState({active: i});
         //console.log(this.state);

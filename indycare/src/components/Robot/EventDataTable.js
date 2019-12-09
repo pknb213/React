@@ -42,6 +42,7 @@ export class EventDataTable extends React.Component {
             table.rows().every((index) => {
                 let str = table.cell(index, 2).data();
                 table.cell(index, 2).data(str + '<img alt="" src=' + DownIcon + '></a>');
+                return true;
             });
             table.draw();
         }

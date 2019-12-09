@@ -31,7 +31,7 @@ class TopMenu extends React.Component {
                                 </label>
                             </li>
                             <li>
-                                <a href="/">
+                                <a href="http://docs.neuromeka.com/">
                                     <button>문의하기</button>
                                 </a>
                             </li>
@@ -39,8 +39,7 @@ class TopMenu extends React.Component {
                                 <Img src={NotiIcon} alt="Noti_icon"/>
                             </li>
                             <li>
-                                <Img src={LogoutIcon} alt="Logout_icon"/>
-                                <span>Log out</span>
+                                <Img href="/" src={LogoutIcon} alt="Logout_icon" text="Log Out"/>
                             </li>
                         </ul>
                     </div>

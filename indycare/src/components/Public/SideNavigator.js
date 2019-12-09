@@ -19,7 +19,7 @@ class SideNavigator extends React.Component {
         return (
             <div className="side_nav">
                 <div className="brand_logo">
-                    <a href="/">
+                    <a href="https://www.neuromeka.com/">
                         <ImgOnly src={IndyCareLogo} alt="indycare_logo"/>
                         <div>
                             <ImgOnly src={TextLogo} alt="indycare_text_logo"/>

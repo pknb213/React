@@ -73,38 +73,37 @@ export default class BarGraph extends React.PureComponent {
                 },
                 scales: {
                     xAxes: [{
-                        //barThickness: 30,
+                        barThickness: 45,
                         type: 'time',
                         time: {
                             padding: 15,
                             fontStyle: "bold",
                             parser: 'YY-MM-DD HH:mm:ss',
                             unit: 'minute',
-                            unitStepSize: 15,
+                            // unitStepSize: 10,
                             displayFormat: {
                                 hour: 'MM-DD HH:mm'
                             }
                         },
                         ticks: {
                             autoSkip: true,
+                            maxTicksLimit: 10,
                             source: 'auto'
                         }
                     }],
-                    // yAxes: [{
-                    //     scaleLabel: {
-                    //         //display: true,
-                    //         //labelString: 'Work Count'
-                    //     },
-                    //     ticks: {
-                    //         fontColor: "rgba(0,0,0,0.8)",
-                    //         fontStyle: "bold",
-                    //         maxTicksLimit: 5,
-                    //         padding: 15,
-                    //         beginAtZero: true,
-                    //         stepValue: 5,
-                    //         steps: 10
-                    //     }
-                    // }],
+                    yAxes: [{
+                        scaleLabel: {
+                            //display: true,
+                            //labelString: 'Work Count'
+                        },
+                        ticks: {
+                            fontColor: "rgba(0,0,0,0.8)",
+                            fontStyle: "bold",
+                            suggestedMax: 100,
+                            beginAtZero: true,
+                            stepSize: 10
+                        }
+                    }],
                     tooltips: {
                         intersect: false,
                         mode: 'index',
