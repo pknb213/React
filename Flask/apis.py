@@ -114,6 +114,7 @@ def events(sn, condition):
 
     if not res: return jsonify('')
     for i in res:
+        if not i['json']: del i
         a = i['json'].replace("\'", "\"")
         a = a.replace("\\", "\\\\")
         a = json.loads(a)
