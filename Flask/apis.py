@@ -157,10 +157,6 @@ def request_event(filename, sn):
                                       attachment_filename=cache.hget(sn, 'log_name').decode('utf-8'))
             print("Succ :", res)
             print(cache.hgetall(sn))
-            sql = '''INSERT INTO events (json, sn) VALUES (\"%s\", \"%s\")
-            ''' % (str(request.json), sn)
-            MySQL.insert(sql)
-            load_sse_command(sn, '_event')
             return res
 
         time.sleep(1)
