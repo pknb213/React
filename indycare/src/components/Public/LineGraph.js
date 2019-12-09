@@ -149,7 +149,7 @@ export default class LineGraph extends React.PureComponent {
                             fontStyle: "bold",
                             parser: 'YY-MM-DD HH:mm:ss',
                             unit: 'minute',
-                            // unitStepSize: 5,
+                            unitStepSize: 5,
                             displayFormat: {
                                 hour: 'MM-DD HH:mm'
                             }
