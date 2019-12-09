@@ -282,13 +282,13 @@ def event_log_uploader(sn, shm):
             continue
         try:
             for msg in messages:
-                print("msg : ", msg.data)
+                print("<Events> msg : ", msg.data)
                 data = json.loads(msg.data)
                 if EventFiles.get_directory_path():
                     with open(EventFiles.get_directory_path() + data['filename'], 'rb') as f:
                         print(f)
                         try:
-                            res = s.post(URL + '/reporter/robot/event/%s/%s'
+                            res = s.post(URL + '/datatable/event/%s/%s'
                                          % (data['filename'], data['sn']), files={'file': f})
                         except requests.exceptions.ConnectionError:
                             t1 = t0 = datetime.datetime.now()
@@ -298,7 +298,7 @@ def event_log_uploader(sn, shm):
                                     if EventFiles.get_directory_path():
                                         with open(EventFiles.get_directory_path() + data['filename'], 'rb') as f:
                                             print(f)
-                                            res = s.post(URL + '/file/event/%s/%s' % (data['filename'], data['sn']),
+                                            res = s.post(URL + '/datatable/event/%s/%s' % (data['filename'], data['sn']),
                                                          files={'file': f})
                                         if res.status_code == 200:
                                             print("<Events> Reconnected !!")
