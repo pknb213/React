@@ -133,7 +133,7 @@ class StateView extends React.Component {
     }
 
     tick() {
-        Axios.get('http://localhost:4000/robot/state/' + this.props.sn)
+        Axios.get('http://121.67.47.157:8884/robot/state/' + this.props.sn)
             .then(res => {
                     //console.log(res);
                     this.setState({robotState: res});
