@@ -18,7 +18,7 @@ html, body {
 .contents_wrap {
     display: block;
     float: left;
-    min-width: 1829px;
+    /*min-width: 1829px;*/
     height: 100%;
     top: 0;
     padding: 0 0 0 90px;

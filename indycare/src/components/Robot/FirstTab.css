@@ -6,9 +6,10 @@
 }
 
 .tab_contents {
-  width: 2410px;
+  /*width: 2410px;*/
   display: inline-block;
-  position: fixed;
+  /*position: fixed;*/
+  position: relative
 }
 
 /* robot_info */
