@@ -1,1 +1,11 @@
-./react_tutorial/idea/
+.react_tutorial/.idea/
+.indycare/.idea/
+.react_test/.idea/
+.single_wep_page/.idea/
+.idea/*
+.idea/
+.Flask/__pycache__/*
+.Flask/python/__pycache__/*
+.Flask/python/__pycache__/
+.indycare/node_modules/.cache/*
+.indycare/node_modules/.cache/
